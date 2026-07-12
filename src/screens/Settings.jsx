@@ -10,6 +10,13 @@ import { navBtnStyle } from '../utils/format';
 import { requestNotifPermission, notify, notifSupported } from '../utils/notifications';
 import { DIETS, ALLERGENS } from '../data/diet';
 import { computeNutritionTarget, ACTIVITY_LEVELS } from '../utils/nutrition';
+import { INJURY_TAGS } from '../data/poses';
+import { kgToDisplay, displayToKg, cmToDisplay, displayToCm, weightUnitLabel, heightUnitLabel } from '../utils/units';
+
+const WEEKDAYS = [
+  { d: 1, l: 'L' }, { d: 2, l: 'M' }, { d: 3, l: 'M' }, { d: 4, l: 'J' },
+  { d: 5, l: 'V' }, { d: 6, l: 'S' }, { d: 0, l: 'D' },
+];
 
 export function Settings() {
   const s = useLune();
@@ -51,6 +58,11 @@ export function Settings() {
     const n = new Set(st[field] || []);
     n.has(k) ? n.delete(k) : n.add(k);
     return { [field]: [...n] };
+  });
+  const toggleDay = (d) => LuneStore.set(st => {
+    const n = new Set(st.preferredTrainingDays || []);
+    n.has(d) ? n.delete(d) : n.add(d);
+    return { preferredTrainingDays: [...n] };
   });
   const onPeriodChange = (val) => {
     const day = cycleDayFromDate(val, s.cycleLength);
@@ -186,6 +198,123 @@ export function Settings() {
           </div>
         </div>
 
+        {/* Calcul calorique & répartition des repas */}
+        <div style={{ padding: '16px 16px 0' }}>
+          <div style={{ ...lv3Label, color: LV3.ink3, marginBottom: 10, paddingLeft: 4 }}>Calcul calorique</div>
+          <Glass tight style={{ padding: '14px 16px' }}>
+            <div style={{ display: 'flex', gap: 6, marginBottom: s.kcalOverride ? 14 : 0 }}>
+              {[{ k: false, l: 'Automatique' }, { k: true, l: 'Manuel' }].map(o => {
+                const isA = !!s.kcalOverride === o.k;
+                return (
+                  <button key={String(o.k)} onClick={() => setField('kcalOverride', o.k ? (s.kcalOverride || 2000) : null)} aria-pressed={isA} style={{
+                    flex: 1, padding: '10px 10px', borderRadius: 14, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                    background: isA ? `${m.palette.accent}26` : 'rgba(255,255,255,0.04)',
+                    color: isA ? m.palette.accent : LV3.ink2, fontSize: 12, fontWeight: isA ? 600 : 400,
+                    outline: `1px solid ${isA ? m.palette.accent : LV3.glassLine}`,
+                  }}>{o.l}</button>
+                );
+              })}
+            </div>
+            {s.kcalOverride ? (
+              <>
+                <div style={labelStyle}>CIBLE · KCAL / JOUR</div>
+                <input type="number" inputMode="numeric" min="1200" step="50" value={s.kcalOverride}
+                  onChange={e => setField('kcalOverride', Number(e.target.value) || 1200)}
+                  style={inputStyle} aria-label="Cible calorique manuelle" />
+                <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginTop: 8, lineHeight: 1.6 }}>
+                  Les macros sont réparties selon les ratios de ton objectif.
+                </div>
+              </>
+            ) : (
+              <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, lineHeight: 1.6 }}>
+                Calculé depuis taille, poids, âge et activité (Mifflin-St Jeor).
+              </div>
+            )}
+          </Glass>
+        </div>
+
+        <div style={{ padding: '16px 16px 0' }}>
+          <div style={{ ...lv3Label, color: LV3.ink3, marginBottom: 10, paddingLeft: 4 }}>Répartition des repas</div>
+          <Glass tight style={{ padding: '14px 16px' }}>
+            <div style={labelStyle}>REPAS PAR JOUR</div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              {[3, 4, 5, 6].map(n => {
+                const isA = (s.mealsPerDay || 4) === n;
+                return (
+                  <button key={n} onClick={() => setField('mealsPerDay', n)} aria-pressed={isA} style={{
+                    flex: 1, padding: '10px 0', borderRadius: 12, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                    background: isA ? `${m.palette.accent}26` : 'rgba(255,255,255,0.04)',
+                    color: isA ? m.palette.accent : LV3.ink2, fontSize: 13, fontWeight: isA ? 600 : 400,
+                    outline: `1px solid ${isA ? m.palette.accent : LV3.glassLine}`,
+                  }}>{n}</button>
+                );
+              })}
+            </div>
+            <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginTop: 10, lineHeight: 1.6 }}>
+              Affiche une suggestion par repas sur l'écran Nutrition.
+            </div>
+          </Glass>
+        </div>
+
+        {/* Entraînement — équipement, limitations, jours préférés */}
+        <div style={{ padding: '16px 16px 0' }}>
+          <div style={{ ...lv3Label, color: LV3.ink3, marginBottom: 10, paddingLeft: 4 }}>Entraînement</div>
+          <Glass tight style={{ padding: '14px 16px' }}>
+            <div style={labelStyle}>ÉQUIPEMENT</div>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 16 }}>
+              {[{ k: 'home', l: 'Maison' }, { k: 'gym', l: 'Salle' }].map(o => {
+                const isA = (s.workoutEnv || 'home') === o.k;
+                return (
+                  <button key={o.k} onClick={() => setField('workoutEnv', o.k)} aria-pressed={isA} style={{
+                    flex: 1, padding: '10px 10px', borderRadius: 14, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                    background: isA ? `${m.palette.accent}26` : 'rgba(255,255,255,0.04)',
+                    color: isA ? m.palette.accent : LV3.ink2, fontSize: 12, fontWeight: isA ? 600 : 400,
+                    outline: `1px solid ${isA ? m.palette.accent : LV3.glassLine}`,
+                  }}>{o.l}</button>
+                );
+              })}
+            </div>
+
+            <div style={labelStyle}>LIMITATIONS PHYSIQUES</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>
+              {INJURY_TAGS.map(t => {
+                const isA = (s.injuries || []).includes(t.k);
+                return (
+                  <button key={t.k} onClick={() => toggleTag('injuries', t.k)} aria-pressed={isA} style={{
+                    padding: '8px 14px', borderRadius: 99, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                    background: isA ? `${LV3.rose}26` : 'rgba(255,255,255,0.04)',
+                    color: isA ? LV3.rose : LV3.ink2, fontSize: 12, fontWeight: isA ? 600 : 400,
+                    outline: `1px solid ${isA ? LV3.rose : LV3.glassLine}`,
+                  }}>{t.l}</button>
+                );
+              })}
+            </div>
+            <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginBottom: 16, lineHeight: 1.6 }}>
+              Les exos à risque sont remplacés par des variantes douces dans ta séance.
+            </div>
+
+            <div style={labelStyle}>JOURS D'ENTRAÎNEMENT PRÉFÉRÉS</div>
+            <div style={{ display: 'flex', gap: 5 }}>
+              {WEEKDAYS.map(w => {
+                const isA = (s.preferredTrainingDays || []).includes(w.d);
+                return (
+                  <button key={w.d} onClick={() => toggleDay(w.d)} aria-pressed={isA} aria-label={`Jour ${w.l}`} style={{
+                    flex: 1, aspectRatio: '1', borderRadius: '50%', border: 'none', cursor: 'pointer', fontFamily: "'IBM Plex Mono', monospace",
+                    background: isA ? `linear-gradient(135deg, ${m.palette.accent}, ${LV3.peach2})` : 'rgba(255,255,255,0.04)',
+                    color: isA ? '#231016' : LV3.ink2, fontSize: 11, fontWeight: 600,
+                    outline: `1px solid ${isA ? m.palette.accent : LV3.glassLine}`,
+                  }}>{w.l}</button>
+                );
+              })}
+            </div>
+            <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginTop: 8, lineHeight: 1.6 }}>
+              {(s.preferredTrainingDays || []).length
+                ? 'Le programme suit tes jours choisis.'
+                : 'Aucun jour choisi — le programme sélectionne automatiquement selon ta phase.'}
+            </div>
+          </Glass>
+        </div>
+
         {/* Régime & allergies */}
         <div style={{ padding: '16px 16px 0' }}>
           <div style={{ ...lv3Label, color: LV3.ink3, marginBottom: 10, paddingLeft: 4 }}>Régime & allergies</div>
@@ -229,12 +358,33 @@ export function Settings() {
           <div style={{ ...lv3Label, color: LV3.ink3, marginBottom: 10, paddingLeft: 4 }}>Mon corps</div>
           <Glass tight style={{ padding: '2px 0' }}>
             <div style={fieldWrap}>
-              <div style={labelStyle}>TAILLE · {s.heightCm} CM</div>
-              <input type="range" min="145" max="195" value={s.heightCm} onChange={e => setField('heightCm', Number(e.target.value))} aria-label="Taille en centimètres" style={{ width: '100%', accentColor: m.palette.accent }} />
+              <div style={labelStyle}>UNITÉS</div>
+              <div style={{ display: 'flex', gap: 6 }}>
+                {[{ k: 'metric', l: 'kg · cm' }, { k: 'imperial', l: 'lb · in' }].map(o => {
+                  const isA = (s.units || 'metric') === o.k;
+                  return (
+                    <button key={o.k} onClick={() => setField('units', o.k)} aria-pressed={isA} style={{
+                      flex: 1, padding: '9px 10px', borderRadius: 12, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                      background: isA ? `${m.palette.accent}26` : 'rgba(255,255,255,0.04)',
+                      color: isA ? m.palette.accent : LV3.ink2, fontSize: 12, fontWeight: isA ? 600 : 400,
+                      outline: `1px solid ${isA ? m.palette.accent : LV3.glassLine}`,
+                    }}>{o.l}</button>
+                  );
+                })}
+              </div>
+            </div>
+            <div style={fieldWrap}>
+              <div style={labelStyle}>TAILLE · {cmToDisplay(s.heightCm, s.units)} {heightUnitLabel(s.units)}</div>
+              <input type="range" min={cmToDisplay(145, s.units)} max={cmToDisplay(195, s.units)}
+                value={cmToDisplay(s.heightCm, s.units)}
+                onChange={e => setField('heightCm', displayToCm(e.target.value, s.units))}
+                aria-label="Taille" style={{ width: '100%', accentColor: m.palette.accent }} />
             </div>
             <div style={{ padding: '14px 16px' }}>
-              <div style={labelStyle}>POIDS DE DÉPART · KG</div>
-              <input type="number" inputMode="decimal" value={s.startWeight} onChange={e => setField('startWeight', Number(e.target.value) || 0)} style={inputStyle} aria-label="Poids de départ en kilos" />
+              <div style={labelStyle}>POIDS DE DÉPART · {weightUnitLabel(s.units).toUpperCase()}</div>
+              <input type="number" inputMode="decimal" value={kgToDisplay(s.startWeight, s.units)}
+                onChange={e => setField('startWeight', displayToKg(e.target.value, s.units))}
+                style={inputStyle} aria-label="Poids de départ" />
             </div>
             <div style={{ padding: '14px 16px' }}>
               <div style={labelStyle}>ANNÉE DE NAISSANCE</div>

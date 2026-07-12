@@ -1,27 +1,33 @@
 import { useState } from 'react';
 import { LV3, lv3Label } from '../theme/tokens';
-import { LuneStore } from '../store/luneStore';
+import { LuneStore, useLune } from '../store/luneStore';
 import { useEscapeClose } from '../utils/useEscapeClose';
+import { displayToKg, displayToCm, weightUnitLabel, heightUnitLabel } from '../utils/units';
 
-const FIELDS = [
-  { k: 'weight', l: 'Poids (kg)' },
-  { k: 'waist', l: 'Taille (cm)' },
-  { k: 'hips', l: 'Hanches (cm)' },
-  { k: 'thigh', l: 'Cuisse (cm)' },
+const FIELD_DEFS = [
+  { k: 'weight', l: 'Poids', kind: 'weight' },
+  { k: 'waist', l: 'Taille', kind: 'length' },
+  { k: 'hips', l: 'Hanches', kind: 'length' },
+  { k: 'thigh', l: 'Cuisse', kind: 'length' },
 ];
 
 export function AddMeasurementSheet({ open, onClose, accent }) {
+  const st = useLune();
   const [values, setValues] = useState({ weight: '', waist: '', hips: '', thigh: '' });
   useEscapeClose(open, onClose);
   if (!open) return null;
 
+  const FIELDS = FIELD_DEFS.map(f => ({ ...f, l: `${f.l} (${f.kind === 'weight' ? weightUnitLabel(st.units) : heightUnitLabel(st.units)})` }));
   const setField = (k, v) => setValues(s => ({ ...s, [k]: v.replace(/[^0-9.]/g, '') }));
-  const hasAny = FIELDS.some(f => values[f.k].trim() !== '');
+  const hasAny = FIELD_DEFS.some(f => values[f.k].trim() !== '');
 
   const submit = () => {
     if (!hasAny) return;
     const entry = { id: 'ms' + Date.now(), date: new Date().toISOString().slice(0, 10) };
-    FIELDS.forEach(f => { if (values[f.k].trim() !== '') entry[f.k] = Number(values[f.k]); });
+    FIELD_DEFS.forEach(f => {
+      if (values[f.k].trim() === '') return;
+      entry[f.k] = f.kind === 'weight' ? displayToKg(values[f.k], st.units) : displayToCm(values[f.k], st.units);
+    });
     LuneStore.set(s => ({ measurements: [...(s.measurements || []), entry] }));
     setValues({ weight: '', waist: '', hips: '', thigh: '' });
     onClose();

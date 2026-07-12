@@ -4,6 +4,8 @@ import { RECIPES } from '../data/recipes';
 import { useLune, LuneStore, luneNav, luneBack } from '../store/luneStore';
 import { Glass } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
+import { todayISO } from '../utils/dateScope';
+import { RecipeIllustration } from '../components/RecipeIllustration';
 
 export function Recipe() {
   const st = useLune();
@@ -17,7 +19,7 @@ export function Recipe() {
   });
   const logToJournal = () => {
     const fmtTime = () => { const d = new Date(); return `${d.getHours()}h${String(d.getMinutes()).padStart(2, '0')}`; };
-    LuneStore.set(s => ({ mealLog: [...(s.mealLog || []), { id: 'm' + Date.now(), time: fmtTime(), name: recipe.name, kcal: recipe.kcal, p: recipe.p, c: recipe.c, f: recipe.f }] }));
+    LuneStore.set(s => ({ mealLog: [...(s.mealLog || []), { id: 'm' + Date.now(), time: fmtTime(), date: todayISO(), name: recipe.name, kcal: recipe.kcal, p: recipe.p, c: recipe.c, f: recipe.f }] }));
     luneNav('nutrition');
   };
   const phaseLabels = recipe.phases.map(p => MUSES[PHASE_TO_MUSE[p]].phaseLabel).join(' · ');
@@ -29,7 +31,9 @@ export function Recipe() {
         <div style={{ position: 'relative', height: 300, background: `linear-gradient(155deg, ${m.palette.accent}55, ${m.palette.base} 75%)`, overflow: 'hidden' }}>
           <div className="lv3-grain"></div>
           <div className="lv3-glow" style={{ position: 'absolute', top: '-20%', right: '-15%', width: 300, height: 300, borderRadius: '50%', background: `radial-gradient(circle, ${m.palette.glow}, transparent 65%)`, filter: 'blur(20px)' }} />
-          <span className="lv3-serif lv3-bob" style={{ position: 'absolute', top: 70, left: '50%', transform: 'translateX(-50%)', fontSize: 120, fontStyle: 'italic', color: m.palette.accent, opacity: .85, lineHeight: 1 }}>{recipe.glyph}</span>
+          <div className="lv3-bob" style={{ position: 'absolute', top: 56, left: '50%', transform: 'translateX(-50%)', opacity: .9 }}>
+            <RecipeIllustration visual={recipe.visual} color={m.palette.accent} size={120} />
+          </div>
 
           <PhoneStatus dark={true} />
 

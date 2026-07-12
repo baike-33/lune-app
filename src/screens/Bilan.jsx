@@ -7,6 +7,7 @@ import { LV3TabBar } from '../components/LV3TabBar';
 import { MuseAvatar } from '../components/MuseAvatar';
 import { navBtnStyle } from '../utils/format';
 import { computeNutritionTarget } from '../utils/nutrition';
+import { isWithinDays } from '../utils/dateScope';
 
 function Stat({ v, l, sub, c }) {
   return (
@@ -23,16 +24,21 @@ export function Bilan() {
   const muse = PHASE_TO_MUSE[activePhase(s)];
   const m = MUSES[muse];
   const goal = computeNutritionTarget(s, s.goal || 'global', GOALS[s.goal] || GOALS.global);
+  const weekGoalKcal = goal.kcal * 7;
 
-  // Agrégats
-  const acts = s.activityLog || [];
+  // Agrégats — 7 derniers jours
+  const acts = (s.activityLog || []).filter(x => isWithinDays(x.date, 7));
   const actMin = acts.reduce((a, x) => a + (x.min || 0), 0);
   const actKcal = acts.reduce((a, x) => a + (x.kcal || 0), 0);
-  const meals = s.mealLog || [];
-  const kcalToday = meals.reduce((a, x) => a + (x.kcal || 0), 0);
+  const meals = (s.mealLog || []).filter(x => isWithinDays(x.date, 7));
+  const kcalWeek = meals.reduce((a, x) => a + (x.kcal || 0), 0);
   const sessionDone = Object.values(s.workoutDone || {}).filter(arr => arr && arr.every(Boolean) && arr.length).length;
   const photos = (s.photos || []).length;
-  const steps = s.healthConnected ? s.health.steps : null;
+  const healthManual = s.healthManual || {};
+  const weekSteps = Object.entries(healthManual)
+    .filter(([d]) => isWithinDays(d, 7))
+    .map(([, v]) => v.steps).filter(v => v != null);
+  const avgSteps = weekSteps.length ? Math.round(weekSteps.reduce((a, v) => a + v, 0) / weekSteps.length) : null;
 
   return (
     <div style={lv3Phone(muse)}>
@@ -68,10 +74,10 @@ export function Bilan() {
         <div style={{ padding: '0 16px 8px', display: 'flex', gap: 8 }}>
           <Stat v={sessionDone} l="Exos finis" c={m.palette.accent} />
           <Stat v={acts.length} l="Activités" sub={`${actMin} min`} c={LV3.sage} />
-          <Stat v={steps != null ? (steps / 1000).toFixed(1) + 'k' : '—'} l="Pas (Santé)" c={LV3.peach} />
+          <Stat v={avgSteps != null ? (avgSteps / 1000).toFixed(1) + 'k' : '—'} l="Pas / jour" sub={avgSteps != null ? 'moy. 7j' : null} c={LV3.peach} />
         </div>
         <div style={{ padding: '0 16px 8px', display: 'flex', gap: 8 }}>
-          <Stat v={kcalToday} l="Kcal mangées" sub={`cible ${goal.kcal}`} c={LV3.gold} />
+          <Stat v={kcalWeek} l="Kcal mangées" sub={`cible ${weekGoalKcal}/sem`} c={LV3.gold} />
           <Stat v={actKcal} l="Kcal dépensées" sub="activités" c={LV3.sage} />
           <Stat v={photos} l="Photos" c={LV3.lavender} />
         </div>
@@ -80,15 +86,15 @@ export function Bilan() {
         <div style={{ padding: '8px 16px 8px' }}>
           <Glass tight style={{ padding: '16px 16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
-              <span style={lv3Label}>Équilibre énergétique</span>
-              <span className="lv3-mono" style={{ fontSize: 10, color: m.palette.accent }}>{kcalToday - actKcal} kcal net</span>
+              <span style={lv3Label}>Équilibre énergétique · semaine</span>
+              <span className="lv3-mono" style={{ fontSize: 10, color: m.palette.accent }}>{kcalWeek - actKcal} kcal net</span>
             </div>
             <div style={{ display: 'flex', height: 10, borderRadius: 99, overflow: 'hidden', background: 'rgba(255,255,255,0.06)' }}>
-              <div style={{ width: `${Math.min(100, (kcalToday / (goal.kcal * 1.4)) * 100)}%`, background: LV3.gold }} />
-              <div style={{ width: `${Math.min(100, (actKcal / (goal.kcal * 1.4)) * 100)}%`, background: LV3.sage }} />
+              <div style={{ width: `${Math.min(100, (kcalWeek / (weekGoalKcal * 1.4)) * 100)}%`, background: LV3.gold }} />
+              <div style={{ width: `${Math.min(100, (actKcal / (weekGoalKcal * 1.4)) * 100)}%`, background: LV3.sage }} />
             </div>
             <div style={{ display: 'flex', gap: 14, marginTop: 10 }}>
-              <span className="lv3-mono" style={{ fontSize: 9.5, color: LV3.gold }}>● Entrées {kcalToday}</span>
+              <span className="lv3-mono" style={{ fontSize: 9.5, color: LV3.gold }}>● Entrées {kcalWeek}</span>
               <span className="lv3-mono" style={{ fontSize: 9.5, color: LV3.sage }}>● Sorties {actKcal}</span>
             </div>
           </Glass>
@@ -114,13 +120,13 @@ export function Bilan() {
         </div>
 
         {/* Health hint */}
-        {!s.healthConnected && (
+        {avgSteps == null && (
           <div style={{ padding: '4px 16px 16px' }}>
             <Glass onClick={() => luneNav('health')} style={{ padding: '16px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14, background: `linear-gradient(135deg, ${LV3.rose}16, ${m.palette.accent}08)` }}>
               <div style={{ width: 42, height: 42, borderRadius: 12, background: `${LV3.rose}26`, color: LV3.rose, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }} aria-hidden="true">♥</div>
               <div style={{ flex: 1 }}>
-                <div className="lv3-serif" style={{ fontSize: 17, fontStyle: 'italic' }}>Connecte Apple Santé</div>
-                <div className="lv3-mono" style={{ fontSize: 9.5, color: LV3.ink3, marginTop: 2 }}>Pas, sommeil, tension, cycle — interconnectés</div>
+                <div className="lv3-serif" style={{ fontSize: 17, fontStyle: 'italic' }}>Renseigne ta santé</div>
+                <div className="lv3-mono" style={{ fontSize: 9.5, color: LV3.ink3, marginTop: 2 }}>Sommeil, pas, hydratation — 30 secondes</div>
               </div>
               <span className="lv3-serif" style={{ fontSize: 18, fontStyle: 'italic', color: m.palette.accent }}>→</span>
             </Glass>

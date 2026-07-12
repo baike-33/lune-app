@@ -7,12 +7,13 @@ import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { LV3TabBar } from '../components/LV3TabBar';
 import { AddMeasurementSheet } from '../components/AddMeasurementSheet';
 import { navBtnStyle } from '../utils/format';
+import { kgToDisplay, cmToDisplay, weightUnitLabel, heightUnitLabel } from '../utils/units';
 
-const METRICS = [
-  { k: 'weight', l: 'Poids', u: 'kg' },
-  { k: 'waist', l: 'Taille', u: 'cm' },
-  { k: 'hips', l: 'Hanches', u: 'cm' },
-  { k: 'thigh', l: 'Cuisse', u: 'cm' },
+const METRIC_DEFS = [
+  { k: 'weight', l: 'Poids', kind: 'weight' },
+  { k: 'waist', l: 'Taille', kind: 'length' },
+  { k: 'hips', l: 'Hanches', kind: 'length' },
+  { k: 'thigh', l: 'Cuisse', kind: 'length' },
 ];
 
 function Sparkline({ pts, c }) {
@@ -43,13 +44,15 @@ export function Body() {
 
   const entries = (st.measurements || []).slice().sort((a, b) => new Date(a.date) - new Date(b.date));
   const colors = { weight: LV3.sage, waist: m.palette.accent, hips: LV3.peach, thigh: LV3.gold };
+  const toDisplay = (kind, v) => v == null ? v : (kind === 'weight' ? kgToDisplay(v, st.units) : cmToDisplay(v, st.units));
 
-  const measures = METRICS.map(meta => {
-    const pts = entries.map(e => e[meta.k]).filter(v => v != null);
+  const measures = METRIC_DEFS.map(meta => {
+    const u = meta.kind === 'weight' ? weightUnitLabel(st.units) : heightUnitLabel(st.units);
+    const pts = entries.map(e => e[meta.k]).filter(v => v != null).map(v => toDisplay(meta.kind, v));
     const latest = pts[pts.length - 1];
     const prev = pts.length > 1 ? pts[pts.length - 2] : null;
     const delta = prev != null ? +(latest - prev).toFixed(1) : null;
-    return { ...meta, c: colors[meta.k], v: latest, delta, points: pts.slice(-12) };
+    return { ...meta, u, c: colors[meta.k], v: latest, delta, points: pts.slice(-12) };
   });
 
   // Mois de programme réel, depuis la date d'onboarding

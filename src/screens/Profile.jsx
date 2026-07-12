@@ -18,7 +18,7 @@ export function Profile() {
     { k: 'photos', i: '◐', l: 'Photos', s: `${photoCount} cliché${photoCount > 1 ? 's' : ''} · avant/après`, c: LV3.gold },
     { k: 'mesures', i: '⊙', l: 'Mesures', s: 'Poids · taille · hanches · graph', c: LV3.rose },
     { k: 'bilan', i: '◈', l: 'Bilan', s: 'Ta semaine en un coup d\'œil', c: LV3.sage },
-    { k: 'health', i: '♥', l: 'Santé', s: s.healthConnected ? 'Apple Santé · connecté' : 'Connecter Apple Santé', c: LV3.peach },
+    { k: 'health', i: '♥', l: 'Santé', s: 'Sommeil, pas, hydratation', c: LV3.peach },
     { k: 'cycle', i: '○', l: 'Mon cycle', s: noCycle ? `${m.phaseLabel} · vibe fixe` : `${m.phaseLabel} · jour ${s.cycleDay}`, c: m.palette.accent },
     { k: 'settings', i: '✷', l: 'Réglages', s: 'Objectif · cycle · profil · données', c: LV3.lavender },
   ];

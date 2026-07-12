@@ -4,6 +4,7 @@ import { LuneStore, useLune, activePhase } from '../store/luneStore';
 import { recommendedRecipes } from '../data/recipes';
 import { isRecipeSafe } from '../data/diet';
 import { useEscapeClose } from '../utils/useEscapeClose';
+import { todayISO } from '../utils/dateScope';
 
 export function AddMealSheet({ open, onClose, accent }) {
   const st = useLune();
@@ -20,7 +21,7 @@ export function AddMealSheet({ open, onClose, accent }) {
   const fmtTime = () => { const d = new Date(); return `${d.getHours()}h${String(d.getMinutes()).padStart(2, '0')}`; };
 
   const logMeal = (meal) => {
-    LuneStore.set(s => ({ mealLog: [...(s.mealLog || []), { id: 'm' + Date.now(), time: fmtTime(), ...meal }] }));
+    LuneStore.set(s => ({ mealLog: [...(s.mealLog || []), { id: 'm' + Date.now(), time: fmtTime(), date: todayISO(), ...meal }] }));
     reset(); onClose();
   };
   const submit = () => {

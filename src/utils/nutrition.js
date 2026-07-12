@@ -26,8 +26,21 @@ function macroRatios(goalDef) {
   return { p: pk / sum, c: ck / sum, f: fk / sum };
 }
 
-/* Renvoie { kcal, p, c, f, personalized } — personalized:false si taille/poids/âge manquent */
+/* Renvoie { kcal, p, c, f, personalized, overridden } — personalized:false si taille/poids/âge manquent */
 export function computeNutritionTarget(state, goalKey, goalDef) {
+  if (state.kcalOverride) {
+    const ratios = macroRatios(goalDef);
+    const kcal = state.kcalOverride;
+    return {
+      kcal,
+      p: Math.round((kcal * ratios.p) / 4),
+      c: Math.round((kcal * ratios.c) / 4),
+      f: Math.round((kcal * ratios.f) / 9),
+      personalized: true,
+      overridden: true,
+    };
+  }
+
   const weight = latestWeight(state);
   const height = state.heightCm;
   const age = state.birthYear ? (new Date().getFullYear() - state.birthYear) : null;

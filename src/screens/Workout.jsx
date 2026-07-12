@@ -18,11 +18,11 @@ export function Workout() {
   const m = MUSES[muse];
   const env = s.workoutEnv || 'home';
   const phaseKey = activePhase(s);
-  const session = getSession(env, phaseKey);
+  const session = getSession(env, phaseKey, s.injuries || []);
   const exos = session.exos;
   const goalNote = GOAL_TRAINING_NOTES[s.goal || 'global']?.[phaseKey];
   const restDuration = REST_SECONDS_BY_GOAL[s.goal || 'global'] || 75;
-  const setEnv = (e) => LuneStore.set({ workoutEnv: e, workoutActiveExo: getSession(e, phaseKey).exos[0], workoutDone: {} });
+  const setEnv = (e) => LuneStore.set({ workoutEnv: e, workoutActiveExo: getSession(e, phaseKey, s.injuries || []).exos[0], workoutDone: {} });
   const activeExo = exos.includes(s.workoutActiveExo) ? s.workoutActiveExo : exos[0];
   const setActiveExo = (id) => LuneStore.set({ workoutActiveExo: id });
   const done = s.workoutDone || {};
@@ -79,7 +79,7 @@ export function Workout() {
                   background: isA ? `linear-gradient(135deg, ${m.palette.accent}, ${LV3.peach2})` : 'transparent',
                   color: isA ? '#231016' : LV3.ink2, fontFamily: "'IBM Plex Mono', monospace", fontSize: 9.5, letterSpacing: '.08em', fontWeight: 600,
                 }}>
-                  <span aria-hidden="true">{getSession(e, phaseKey).icon}</span>{getSession(e, phaseKey).label}
+                  <span aria-hidden="true">{getSession(e, phaseKey, s.injuries || []).icon}</span>{getSession(e, phaseKey, s.injuries || []).label}
                 </button>
               );
             })}
@@ -91,6 +91,9 @@ export function Workout() {
           <Glass tight style={{ padding: '12px 14px', background: `linear-gradient(135deg, ${m.palette.accent}14, ${LV3.rose}06)`, borderLeft: `2px solid ${m.palette.accent}` }}>
             <div className="lv3-mono" style={{ fontSize: 8.5, letterSpacing: '.14em', color: m.palette.accent }}>{m.phaseLabel.toUpperCase()} · {session.title.toUpperCase()}</div>
             <div className="lv3-serif" style={{ fontSize: 14.5, fontStyle: 'italic', color: LV3.ink, marginTop: 5, lineHeight: 1.4 }}>{session.note}</div>
+            {session.adapted && (
+              <div className="lv3-mono" style={{ fontSize: 9, color: LV3.sage, marginTop: 8 }}>✓ Séance adaptée à tes limitations physiques.</div>
+            )}
             {goalNote && (
               <div style={{ marginTop: 10, paddingTop: 10, borderTop: `1px solid ${LV3.faint}` }}>
                 <div className="lv3-mono" style={{ fontSize: 7.5, letterSpacing: '.14em', color: LV3.ink3 }}>OBJECTIF · {GOALS[s.goal || 'global'].label.toUpperCase()}</div>

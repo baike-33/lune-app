@@ -29,17 +29,23 @@ const REST_MESSAGES = {
   lut: 'Repos actif — une marche suffit, pas besoin de plus.',
 };
 
-/* Jours d'entraînement de la semaine pour une phase, ajustés par l'objectif */
-export function trainingWeekdaysFor(phase, goal = 'global') {
-  const priority = TRAINING_PRIORITY[phase] || [];
+/* Jours d'entraînement de la semaine pour une phase, ajustés par l'objectif.
+   Si `preferredDays` est renseigné (dispos choisies dans Réglages), on les
+   utilise directement à la place de l'algorithme par phase. */
+export function trainingWeekdaysFor(phase, goal = 'global', preferredDays = []) {
   const base = BASE_COUNT[phase] || 0;
   const delta = GOAL_FREQUENCY_DELTA[goal] || 0;
+  if (preferredDays && preferredDays.length) {
+    const count = Math.max(1, base + delta);
+    return [...new Set(preferredDays)].sort((a, b) => a - b).slice(0, count);
+  }
+  const priority = TRAINING_PRIORITY[phase] || [];
   const count = Math.max(1, Math.min(priority.length, base + delta));
   return priority.slice(0, count).sort((a, b) => a - b);
 }
 
-export function isTrainingDay(phase, goal = 'global', date = new Date()) {
-  return trainingWeekdaysFor(phase, goal).includes(date.getDay());
+export function isTrainingDay(phase, goal = 'global', date = new Date(), preferredDays = []) {
+  return trainingWeekdaysFor(phase, goal, preferredDays).includes(date.getDay());
 }
 
 export function restMessage(phase) {

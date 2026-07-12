@@ -96,7 +96,11 @@ const LUNE_DEFAULTS = {
   startWeight: 65.5,
   birthYear: null,             // pour le calcul nutritionnel (BMR) — optionnel
   activityLevel: 'modere',     // 'sedentaire' | 'leger' | 'modere' | 'actif' — pour le calcul nutritionnel
-  units: 'metric',             // 'metric' | 'imperial'
+  units: 'metric',             // 'metric' | 'imperial' — affichage uniquement, stockage toujours en kg/cm
+  injuries: [],                 // ex: ['genoux','dos'] — limitations physiques déclarées, filtrent les exos à risque
+  preferredTrainingDays: [],    // ex: [1,3,5] (0=dim…6=sam) — vide = jours choisis automatiquement par phase/objectif
+  kcalOverride: null,           // surcharge calorique manuelle (kcal/jour) — null = calcul automatique (BMR/TDEE)
+  mealsPerDay: 4,               // pour répartir la cible nutrition par repas
   notifTrain: true,
   notifCycle: true,
   // photos de progression (exemples — remplaçables par l'utilisatrice)
@@ -120,10 +124,9 @@ const LUNE_DEFAULTS = {
   journalEnergy: 3,           // 1–5
   moodLog: {},                // { 'YYYY-MM-DD': moodKey } — historique réel des 7 derniers jours
   // nutrition
-  mealsDone: [true, true, true, true, false],
   mealLog: [                   // repas réellement enregistrés (aujourd'hui)
-    { id: 'm1', time: '7h30', name: 'Skyr · myrtilles · amandes', kcal: 340, p: 32, c: 38, f: 10 },
-    { id: 'm2', time: '13h', name: 'Poulet · riz basmati · brocoli', kcal: 560, p: 42, c: 62, f: 18 },
+    { id: 'm1', time: '7h30', date: new Date().toISOString().slice(0, 10), name: 'Skyr · myrtilles · amandes', kcal: 340, p: 32, c: 38, f: 10 },
+    { id: 'm2', time: '13h', date: new Date().toISOString().slice(0, 10), name: 'Poulet · riz basmati · brocoli', kcal: 560, p: 42, c: 62, f: 18 },
   ],
   savedRecipes: ['bowl-reconfort', 'porridge-cacao'],
   activeRecipe: 'bowl-reconfort',
@@ -138,8 +141,8 @@ const LUNE_DEFAULTS = {
   activityLog: [
     { id: 'act-ex', type: 'Marche', icon: '⊳', date: new Date().toISOString().slice(0, 10), min: 32, kcal: 140, intensity: 'douce' },
   ],
-  healthConnected: false,
-  health: { steps: 0, restingHR: 0, sleepH: 0, bp: '—', meds: false, contraception: '—' },
+  healthManual: {},            // { 'YYYY-MM-DD': { sleepH, steps } } — saisie manuelle réelle, par jour
+  hydration: {},                // { 'YYYY-MM-DD': verres } — verres d'eau (250 ml) bus, par jour
   // nav
   screen: 'today',
   navStack: [],

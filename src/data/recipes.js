@@ -1,8 +1,9 @@
 export const RECIPES = [
   {
     id: 'bowl-reconfort', name: 'Bowl Lina réconfort', glyph: '◗',
+    visual: 'bowl',
     kcal: 620, p: 38, c: 65, f: 22, time: 22,
-    phases: ['lut'], goals: ['global', 'energie'], diets: [],
+    phases: ['lut'], goals: ['global', 'energie'], diets: ['pescatarien'],
     tags: ['glucides complexes', 'magnésium', 'protéines lentes'],
     blurb: 'Le triplé qui aide la lutéale à se poser.',
     ingredients: [
@@ -24,8 +25,9 @@ export const RECIPES = [
   },
   {
     id: 'porridge-cacao', name: 'Porridge cacao magnésium', glyph: '❍',
+    visual: 'porridge',
     kcal: 430, p: 24, c: 58, f: 12, time: 10,
-    phases: ['lut', 'mens'], goals: ['energie', 'global'], diets: ['vegetarien'],
+    phases: ['lut', 'mens'], goals: ['energie', 'global'], diets: ['vegetarien', 'pescatarien'],
     tags: ['anti-fringale', 'magnésium', 'réconfort'],
     blurb: "Le câlin du matin quand l'énergie est basse.",
     ingredients: [
@@ -44,8 +46,9 @@ export const RECIPES = [
   },
   {
     id: 'skyr-myrtille', name: 'Skyr protéiné myrtilles', glyph: '❉',
+    visual: 'yogurt',
     kcal: 340, p: 32, c: 38, f: 10, time: 5,
-    phases: ['fol', 'ov'], goals: ['global', 'taille'], diets: ['vegetarien'],
+    phases: ['fol', 'ov'], goals: ['global', 'taille'], diets: ['vegetarien', 'pescatarien'],
     tags: ['protéiné', 'rapide', 'léger'],
     blurb: 'Petit-déj express, hautes protéines, taille légère.',
     ingredients: [
@@ -62,6 +65,7 @@ export const RECIPES = [
   },
   {
     id: 'poulet-riz-glute', name: 'Poulet riz basmati — glute fuel', glyph: '▤',
+    visual: 'plate',
     kcal: 680, p: 48, c: 78, f: 16, time: 25,
     phases: ['fol', 'ov'], goals: ['volume', 'global'], diets: [],
     tags: ['surplus', 'glucides timing', 'post-séance'],
@@ -82,8 +86,9 @@ export const RECIPES = [
   },
   {
     id: 'dahl-lentilles', name: 'Dahl lentilles corail — fer', glyph: '◑',
+    visual: 'stew',
     kcal: 520, p: 26, c: 72, f: 14, time: 30,
-    phases: ['mens', 'lut'], goals: ['energie', 'global'], diets: ['vegetarien', 'vegan'],
+    phases: ['mens', 'lut'], goals: ['energie', 'global'], diets: ['vegetarien', 'vegan', 'pescatarien'],
     tags: ['fer', 'réconfort', 'batch'],
     blurb: 'Chaud, riche en fer — parfait pendant les règles.',
     ingredients: [
@@ -102,8 +107,9 @@ export const RECIPES = [
   },
   {
     id: 'smoothie-recup', name: 'Smoothie récup banane', glyph: '❂',
+    visual: 'smoothie',
     kcal: 380, p: 34, c: 48, f: 6, time: 5,
-    phases: ['ov', 'fol'], goals: ['volume', 'global'], diets: ['vegetarien'],
+    phases: ['ov', 'fol'], goals: ['volume', 'global'], diets: ['vegetarien', 'pescatarien'],
     tags: ['post-séance', 'protéiné', 'rapide'],
     blurb: 'Fenêtre anabolique : protéines + glucides rapides.',
     ingredients: [
@@ -120,6 +126,7 @@ export const RECIPES = [
   },
   {
     id: 'salade-taille', name: 'Salade poulet citron', glyph: '❋',
+    visual: 'salad',
     kcal: 410, p: 40, c: 18, f: 20, time: 15,
     phases: ['ov', 'fol'], goals: ['taille'], diets: [],
     tags: ['léger', 'anti-ballonnement', 'protéiné'],
@@ -139,8 +146,9 @@ export const RECIPES = [
   },
   {
     id: 'omelette-fer', name: 'Omelette épinards — fer', glyph: '◐',
+    visual: 'plate',
     kcal: 320, p: 26, c: 6, f: 22, time: 10,
-    phases: ['mens'], goals: ['energie', 'taille'], diets: ['vegetarien'],
+    phases: ['mens'], goals: ['energie', 'taille'], diets: ['vegetarien', 'pescatarien'],
     tags: ['fer', 'rapide', 'faible glucides'],
     blurb: 'Reminéralisant et doux pour les jours de règles.',
     ingredients: [
@@ -157,8 +165,9 @@ export const RECIPES = [
   },
   {
     id: 'saumon-patate', name: 'Saumon patate douce', glyph: '◗',
+    visual: 'plate',
     kcal: 600, p: 40, c: 48, f: 26, time: 25,
-    phases: ['lut'], goals: ['global', 'volume'], diets: [],
+    phases: ['lut'], goals: ['global', 'volume'], diets: ['pescatarien'],
     tags: ['oméga-3', 'glucides complexes'],
     blurb: 'Lipides de qualité + glucides lents pour la lutéale.',
     ingredients: [
@@ -175,8 +184,9 @@ export const RECIPES = [
   },
   {
     id: 'wrap-oeuf', name: 'Wrap œuf avocat', glyph: '❒',
+    visual: 'wrap',
     kcal: 430, p: 24, c: 34, f: 22, time: 10,
-    phases: ['fol'], goals: ['taille', 'global'], diets: ['vegetarien'],
+    phases: ['fol'], goals: ['taille', 'global'], diets: ['vegetarien', 'pescatarien'],
     tags: ['rapide', 'équilibré', 'nomade'],
     blurb: 'Équilibré et transportable pour les journées actives.',
     ingredients: [
@@ -188,6 +198,172 @@ export const RECIPES = [
     steps: [
       { t: '5 min', s: 'Brouiller les œufs.' },
       { t: 'Dresser', s: "Garnir la tortilla, rouler serré." },
+    ],
+  },
+  {
+    id: 'curry-pois-chiches', name: 'Curry pois chiches épinards', glyph: '◒',
+    visual: 'stew',
+    kcal: 480, p: 20, c: 58, f: 18, time: 25,
+    phases: ['mens', 'lut'], goals: ['energie', 'global'], diets: ['vegetarien', 'vegan', 'pescatarien'],
+    tags: ['fer', 'vegan', 'réconfort'],
+    blurb: "Chaud et épicé, plein de fer végétal pour les jours de règles.",
+    ingredients: [
+      { i: 'Pois chiches cuits', q: '250 g' },
+      { i: 'Lait de coco', q: '150 ml' },
+      { i: 'Tomates concassées', q: '150 g' },
+      { i: 'Épinards', q: '2 poignées' },
+      { i: 'Oignon · ail · gingembre', q: '1 set' },
+      { i: 'Curry · curcuma · cumin', q: '1 c. à c. each' },
+      { i: 'Riz basmati', q: '80 g (cru)' },
+    ],
+    steps: [
+      { t: '5 min', s: 'Revenir oignon, ail, gingembre, épices.' },
+      { t: '15 min', s: 'Pois chiches + tomates + coco, mijoter.' },
+      { t: '3 min', s: 'Ajouter épinards en fin de cuisson.' },
+      { t: '12 min', s: 'Riz à cuire en parallèle.' },
+    ],
+  },
+  {
+    id: 'bowl-quinoa-tofu', name: 'Bowl quinoa tofu grillé', glyph: '◈',
+    visual: 'bowl',
+    kcal: 560, p: 32, c: 62, f: 20, time: 25,
+    phases: ['fol', 'ov'], goals: ['volume', 'global'], diets: ['vegetarien', 'vegan', 'pescatarien'],
+    tags: ['protéiné', 'vegan', 'post-séance'],
+    blurb: 'Construction 100% végétale : tofu grillé, quinoa, sésame.',
+    ingredients: [
+      { i: 'Tofu ferme', q: '180 g' },
+      { i: 'Quinoa', q: '80 g (cru)' },
+      { i: 'Brocoli', q: '150 g' },
+      { i: 'Carotte râpée', q: '1' },
+      { i: 'Sauce soja · sésame · gingembre', q: '2 c. à s.' },
+      { i: 'Graines de sésame', q: '1 c. à c.' },
+    ],
+    steps: [
+      { t: '15 min', s: 'Quinoa à cuire selon paquet.' },
+      { t: '10 min', s: 'Tofu en dés, mariné puis grillé à la poêle.' },
+      { t: '6 min', s: 'Brocoli vapeur.' },
+      { t: 'Dresser', s: 'Assembler, carotte râpée, sauce, graines.' },
+    ],
+  },
+  {
+    id: 'poke-thon-avocat', name: 'Poke bowl thon avocat', glyph: '❁',
+    visual: 'bowl',
+    kcal: 520, p: 38, c: 52, f: 18, time: 20,
+    phases: ['ov', 'fol'], goals: ['taille', 'global'], diets: ['pescatarien'],
+    tags: ['oméga-3', 'frais', 'sans cuisson'],
+    blurb: 'Frais, protéiné, zéro cuisson — parfait les jours chargés.',
+    ingredients: [
+      { i: 'Thon frais ou en boîte au naturel', q: '150 g' },
+      { i: 'Riz vinaigré (ou riz complet)', q: '150 g cuit' },
+      { i: 'Avocat', q: '½' },
+      { i: 'Edamame', q: '50 g' },
+      { i: 'Concombre · radis', q: 'au goût' },
+      { i: 'Sauce soja · sésame', q: '1 c. à s.' },
+    ],
+    steps: [
+      { t: '12 min', s: 'Riz à cuire, laisser tiédir.' },
+      { t: '5 min', s: 'Couper thon, avocat, légumes en dés.' },
+      { t: 'Dresser', s: 'Assembler en bol, sauce soja-sésame par-dessus.' },
+    ],
+  },
+  {
+    id: 'soupe-miso-tofu', name: 'Soupe miso tofu gingembre', glyph: '◌',
+    visual: 'stew',
+    kcal: 280, p: 16, c: 24, f: 12, time: 15,
+    phases: ['mens'], goals: ['energie', 'taille'], diets: ['vegetarien', 'vegan', 'pescatarien'],
+    tags: ['léger', 'chaud', 'digestion'],
+    blurb: 'Chaude et douce pour un ventre sensible en période de règles.',
+    ingredients: [
+      { i: 'Pâte miso', q: '1 c. à s.' },
+      { i: 'Tofu soyeux', q: '100 g' },
+      { i: 'Algues wakamé', q: '1 c. à c.' },
+      { i: 'Gingembre frais', q: '1 morceau' },
+      { i: 'Oignon nouveau', q: '1' },
+      { i: 'Bouillon de légumes', q: '400 ml' },
+    ],
+    steps: [
+      { t: '5 min', s: 'Chauffer le bouillon avec le gingembre.' },
+      { t: '5 min', s: 'Diluer le miso hors du feu (ne pas bouillir).' },
+      { t: '5 min', s: 'Ajouter tofu, wakamé, oignon nouveau.' },
+    ],
+  },
+  {
+    id: 'yaourt-grec-granola', name: 'Yaourt grec granola miel', glyph: '❂',
+    visual: 'yogurt',
+    kcal: 360, p: 22, c: 42, f: 10, time: 5,
+    phases: ['ov', 'fol'], goals: ['taille', 'global'], diets: ['vegetarien', 'pescatarien'],
+    tags: ['rapide', 'protéiné'],
+    blurb: 'Petit-déj 5 minutes, protéiné et croquant.',
+    ingredients: [
+      { i: 'Yaourt grec', q: '200 g' },
+      { i: 'Granola maison', q: '40 g' },
+      { i: 'Fruits rouges', q: '1 poignée' },
+      { i: 'Miel', q: '1 c. à c.' },
+    ],
+    steps: [
+      { t: '2 min', s: 'Verser le yaourt dans un bol.' },
+      { t: 'Dresser', s: 'Granola, fruits rouges, filet de miel.' },
+    ],
+  },
+  {
+    id: 'chili-vegan', name: 'Chili sin carne haricots rouges', glyph: '◑',
+    visual: 'stew',
+    kcal: 540, p: 26, c: 70, f: 14, time: 30,
+    phases: ['lut', 'fol'], goals: ['volume', 'global'], diets: ['vegetarien', 'vegan', 'pescatarien'],
+    tags: ['batch', 'vegan', 'fibre'],
+    blurb: 'Généreux et fibreux, parfait en grande quantité pour la semaine.',
+    ingredients: [
+      { i: 'Haricots rouges cuits', q: '300 g' },
+      { i: 'Maïs', q: '100 g' },
+      { i: 'Tomates concassées', q: '300 g' },
+      { i: 'Oignon · ail · poivron', q: '1 set' },
+      { i: 'Paprika fumé · cumin · piment', q: '1 c. à c. each' },
+      { i: 'Riz complet', q: '80 g (cru)' },
+    ],
+    steps: [
+      { t: '6 min', s: 'Revenir oignon, ail, poivron, épices.' },
+      { t: '20 min', s: 'Haricots + maïs + tomates, mijoter.' },
+      { t: '15 min', s: 'Riz à cuire en parallèle.' },
+    ],
+  },
+  {
+    id: 'toast-avocat-oeuf', name: 'Toast avocat œuf poché', glyph: '❒',
+    visual: 'wrap',
+    kcal: 400, p: 20, c: 32, f: 22, time: 10,
+    phases: ['fol'], goals: ['taille', 'global'], diets: ['vegetarien', 'pescatarien'],
+    tags: ['rapide', 'équilibré'],
+    blurb: 'Le classique qui ne déçoit jamais, prêt en 10 minutes.',
+    ingredients: [
+      { i: 'Pain complet', q: '2 tranches' },
+      { i: 'Avocat', q: '½' },
+      { i: 'Œuf', q: '1' },
+      { i: 'Citron · piment doux', q: 'au goût' },
+    ],
+    steps: [
+      { t: '3 min', s: 'Toaster le pain, écraser l\'avocat dessus.' },
+      { t: '4 min', s: 'Pocher l\'œuf dans une eau frémissante vinaigrée.' },
+      { t: 'Dresser', s: 'Œuf sur le toast, citron, piment doux.' },
+    ],
+  },
+  {
+    id: 'crevettes-riz-legumes', name: 'Bowl crevettes riz complet', glyph: '▤',
+    visual: 'bowl',
+    kcal: 500, p: 36, c: 56, f: 12, time: 20,
+    phases: ['ov'], goals: ['volume', 'global'], diets: ['pescatarien'],
+    tags: ['protéiné', 'post-séance'],
+    blurb: 'Léger en lipides, riche en protéines — idéal après une grosse séance.',
+    ingredients: [
+      { i: 'Crevettes décortiquées', q: '180 g' },
+      { i: 'Riz complet', q: '80 g (cru)' },
+      { i: 'Poivron · courgette', q: '200 g' },
+      { i: 'Ail · citron vert', q: 'au goût' },
+      { i: "Huile d'olive", q: '1 c. à s.' },
+    ],
+    steps: [
+      { t: '15 min', s: 'Riz à cuire selon paquet.' },
+      { t: '6 min', s: 'Poêler les légumes avec ail.' },
+      { t: '4 min', s: 'Saisir les crevettes, déglacer citron vert.' },
+      { t: 'Dresser', s: 'Assembler le tout.' },
     ],
   },
 ];

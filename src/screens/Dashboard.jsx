@@ -12,6 +12,7 @@ import { AddActivitySheet } from '../components/AddActivitySheet';
 import { todayLabel } from '../utils/format';
 import { isTrainingDay, restMessage } from '../data/schedule';
 import { computeNutritionTarget } from '../utils/nutrition';
+import { isToday, todayISO } from '../utils/dateScope';
 
 /* ════════════════════════════════════════════════════════
    DASHBOARD · today
@@ -22,10 +23,11 @@ export function Dashboard() {
   const m = MUSES[muse];
   const [actSheet, setActSheet] = useState(false);
   const phaseKey = activePhase(s);
-  const session = getSession(s.workoutEnv || 'home', phaseKey);
-  const training = isTrainingDay(phaseKey, s.goal || 'global');
+  const session = getSession(s.workoutEnv || 'home', phaseKey, s.injuries || []);
+  const training = isTrainingDay(phaseKey, s.goal || 'global', new Date(), s.preferredTrainingDays || []);
   const goal = computeNutritionTarget(s, s.goal || 'global', GOALS[s.goal] || GOALS.global);
-  const mealTotals = (s.mealLog || []).reduce((a, x) => ({ p: a.p + (x.p || 0), c: a.c + (x.c || 0), f: a.f + (x.f || 0) }), { p: 0, c: 0, f: 0 });
+  const mealTotals = (s.mealLog || []).filter(x => isToday(x.date)).reduce((a, x) => ({ p: a.p + (x.p || 0), c: a.c + (x.c || 0), f: a.f + (x.f || 0) }), { p: 0, c: 0, f: 0 });
+  const todayISOKey = todayISO();
   return (
     <div style={lv3Phone(muse)}>
       <WarmAurora muse={muse} />
@@ -165,6 +167,7 @@ export function Dashboard() {
               { l: 'Mesures', s: 'Taille · hanches · cuisses', i: '⊙', c: LV3.rose, to: 'mesures' },
               { l: 'Photo', s: 'Progression · avant/après', i: '◐', c: LV3.gold, to: 'photos' },
               { l: 'Courses', s: 'Liste du jour · auto', i: '◇', c: LV3.sage, to: 'shopping' },
+              { l: 'Santé', s: `Eau · ${(s.hydration || {})[todayISOKey] || 0}/8 verres`, i: '♥', c: LV3.peach, to: 'health' },
             ].map((a, i) => (
               <Glass tight key={i} onClick={() => a.act ? setActSheet(true) : luneNav(a.to)} style={{ padding: '12px 12px', cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

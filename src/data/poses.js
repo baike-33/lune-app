@@ -11,7 +11,7 @@ export const EXO_POSES = {
       { l: 'SQUEEZE', s: 'Pause 1s en haut. Sens-les vraiment.' },
     ],
     sets: 4, reps: '10–12', charge: 'KB 12 kg', rpe: 8,
-    tempo: '2-1-2-1',
+    tempo: '2-1-2-1', avoid: ['dos'],
   },
   s2: {
     muse: 'alya', image: '/muses/alya-rdl.png', name: 'RDL Haltères',
@@ -22,7 +22,7 @@ export const EXO_POSES = {
       { l: 'JAMBES', s: 'Légère flexion stable, pas un squat.' },
       { l: 'BARRE',  s: 'Glisse le long des cuisses, juste sous le genou.' },
     ],
-    sets: 3, reps: '12', charge: '2×8 kg', rpe: 7, tempo: '2-1-2-0',
+    sets: 3, reps: '12', charge: '2×8 kg', rpe: 7, tempo: '2-1-2-0', avoid: ['dos'],
   },
   s3: {
     muse: 'sora', image: '/muses/sora-squat.png', name: 'Squat Bulgare',
@@ -33,7 +33,7 @@ export const EXO_POSES = {
       { l: 'GENOU',    s: 'Aligné avec les orteils, jamais en dedans.' },
       { l: 'TRONC',    s: 'Légère inclinaison avant — focus fessier.' },
     ],
-    sets: 3, reps: '10 / côté', charge: 'Poids du corps', rpe: 8, tempo: '3-0-1-0',
+    sets: 3, reps: '10 / côté', charge: 'Poids du corps', rpe: 8, tempo: '3-0-1-0', avoid: ['genoux'],
   },
   s4: {
     muse: 'lina', image: '/muses/lina-bridge.png', name: 'Glute Bridge',
@@ -70,9 +70,9 @@ export const EXO_POSES = {
   },
 
   /* ─── Salle (gym) — mêmes mouvements, charges machines/barres ─── */
-  g1: { muse: 'alya', image: '/muses/alya-hipthrust.png', name: 'Hip Thrust barre', objectPosition: 'center 35%', cadence: 'hipthrust', arc: 'up', coach: 'Barre sur les hanches, pause 1s en haut.', cues: [{ l: 'BARRE', s: 'Coussin sur le pli de hanche.' }, { l: 'PIEDS', s: 'À plat, tibias verticaux en haut.' }, { l: 'SQUEEZE', s: 'Verrouille les fessiers 1s.' }], sets: 4, reps: '8–10', charge: 'Barre 40 kg', rpe: 8, tempo: '2-1-2-1' },
-  g2: { muse: 'alya', image: '/muses/alya-rdl.png', name: 'Soulevé roumain barre', objectPosition: 'center 35%', cadence: 'hinge', arc: 'hinge', coach: 'Charnière de hanche, dos neutre, barre proche.', cues: [{ l: 'HANCHE', s: 'Recule les fesses.' }, { l: 'DOS', s: 'Gaine, jamais arrondi.' }, { l: 'BARRE', s: 'Glisse le long des cuisses.' }], sets: 4, reps: '10', charge: 'Barre 50 kg', rpe: 8, tempo: '3-1-1-0' },
-  g3: { muse: 'sora', image: '/muses/sora-squat.png', name: 'Presse à cuisses', objectPosition: 'center 40%', cadence: 'squat', arc: 'down', coach: 'Amplitude complète, genoux suivent les pointes.', cues: [{ l: 'PIEDS', s: 'Hauts & larges = fessiers.' }, { l: 'GENOUX', s: "Alignés, pas vers l'intérieur." }, { l: 'BAS', s: 'Ne décolle pas le bassin.' }], sets: 4, reps: '12', charge: 'Presse 80 kg', rpe: 8, tempo: '2-1-2-0' },
+  g1: { muse: 'alya', image: '/muses/alya-hipthrust.png', name: 'Hip Thrust barre', objectPosition: 'center 35%', cadence: 'hipthrust', arc: 'up', coach: 'Barre sur les hanches, pause 1s en haut.', cues: [{ l: 'BARRE', s: 'Coussin sur le pli de hanche.' }, { l: 'PIEDS', s: 'À plat, tibias verticaux en haut.' }, { l: 'SQUEEZE', s: 'Verrouille les fessiers 1s.' }], sets: 4, reps: '8–10', charge: 'Barre 40 kg', rpe: 8, tempo: '2-1-2-1', avoid: ['dos'] },
+  g2: { muse: 'alya', image: '/muses/alya-rdl.png', name: 'Soulevé roumain barre', objectPosition: 'center 35%', cadence: 'hinge', arc: 'hinge', coach: 'Charnière de hanche, dos neutre, barre proche.', cues: [{ l: 'HANCHE', s: 'Recule les fesses.' }, { l: 'DOS', s: 'Gaine, jamais arrondi.' }, { l: 'BARRE', s: 'Glisse le long des cuisses.' }], sets: 4, reps: '10', charge: 'Barre 50 kg', rpe: 8, tempo: '3-1-1-0', avoid: ['dos'] },
+  g3: { muse: 'sora', image: '/muses/sora-squat.png', name: 'Presse à cuisses', objectPosition: 'center 40%', cadence: 'squat', arc: 'down', coach: 'Amplitude complète, genoux suivent les pointes.', cues: [{ l: 'PIEDS', s: 'Hauts & larges = fessiers.' }, { l: 'GENOUX', s: "Alignés, pas vers l'intérieur." }, { l: 'BAS', s: 'Ne décolle pas le bassin.' }], sets: 4, reps: '12', charge: 'Presse 80 kg', rpe: 8, tempo: '2-1-2-0', avoid: ['genoux'] },
   g4: { muse: 'sora', image: '/muses/sora-kickback.png', name: 'Abduction machine', objectPosition: 'center 45%', cadence: 'kickback', arc: 'out', coach: 'Ouvre lentement, serre 1s en fin de course.', cues: [{ l: 'BUSTE', s: 'Léger avant pour le moyen fessier.' }, { l: 'CONTRÔLE', s: "Pas d'à-coups au retour." }, { l: 'TEMPO', s: 'Lent, 2s la contraction.' }], sets: 3, reps: '15', charge: 'Machine 45 kg', rpe: 8, tempo: '1-1-2-1' },
   g5: { muse: 'lina', image: '/muses/lina-bridge.png', name: 'Leg curl allongé', objectPosition: 'center 40%', cadence: 'bridge', arc: 'up', coach: 'Ramène les talons aux fessiers, contrôle le retour.', cues: [{ l: 'BASSIN', s: 'Reste collé au banc.' }, { l: 'TALONS', s: 'Vers les fesses, complet.' }, { l: 'RETOUR', s: 'Freine la descente.' }], sets: 3, reps: '12', charge: 'Machine 30 kg', rpe: 8, tempo: '2-1-2-1' },
   g6: { muse: 'mira', image: '/muses/mira-walk.png', name: 'Stairmaster', objectPosition: 'center 50%', cadence: 'walk', arc: 'arc', coach: "Posture droite, sans t'agripper. Respiration libre.", cues: [{ l: 'NIVEAU', s: 'Niv 8 · 12 min.' }, { l: 'POSTURE', s: 'Buste haut, regard loin.' }, { l: 'MAINS', s: 'Appui léger seulement.' }], sets: 1, reps: '12 min', charge: 'Niv 8', rpe: 6, tempo: 'continu' },
@@ -86,9 +86,9 @@ export const EXO_POSES = {
   pm6: { muse: 'mira', image: '/muses/mira-walk.png', name: 'Marche douce', objectPosition: 'center 50%', cadence: 'walk', arc: 'arc', coach: 'Marche tranquille — circulation, humeur, rien de plus.', cues: [{ l: 'RYTHME', s: 'Confortable, tu peux parler.' }, { l: 'DURÉE', s: '15 min, à plat.' }, { l: 'ESPRIT', s: 'Un moment pour toi.' }], sets: 1, reps: '15 min', charge: 'À plat', rpe: 3, tempo: 'continu' },
 
   /* ─── OVULATION · Force max (Sora) ──────────────────────── */
-  po1: { muse: 'alya', image: '/muses/alya-hipthrust.png', name: 'Hip Thrust lourd', objectPosition: 'center 35%', cadence: 'hipthrust', arc: 'up', coach: 'Charge maximale sur peu de reps. Explose vers le haut.', cues: [{ l: 'CHARGE', s: 'Lourd — 5 à 6 reps propres.' }, { l: 'POUSSÉE', s: 'Explosive en montée.' }, { l: 'CONTRÔLE', s: 'Descente maîtrisée.' }], sets: 5, reps: '6', charge: 'KB 16 kg', rpe: 9, tempo: '1-1-2-0' },
-  po2: { muse: 'sora', image: '/muses/sora-squat.png', name: 'Squat bulgare lesté', objectPosition: 'center 40%', cadence: 'squat', arc: 'down', coach: 'Profond et puissant. Reste gainée.', cues: [{ l: 'PROFONDEUR', s: 'Descends bas, genou stable.' }, { l: 'LESTE', s: 'Haltères ou kettlebell.' }, { l: 'GAINAGE', s: 'Tronc solide.' }], sets: 4, reps: '8 / côté', charge: '2×8 kg', rpe: 9, tempo: '2-0-1-0' },
-  po3: { muse: 'alya', image: '/muses/alya-rdl.png', name: 'Soulevé roumain lourd', objectPosition: 'center 35%', cadence: 'hinge', arc: 'hinge', coach: 'Charnière puissante, ischios sous tension.', cues: [{ l: 'HANCHE', s: 'Recule fort.' }, { l: 'DOS', s: 'Neutre, gainé.' }, { l: 'CHARGE', s: 'Lourd mais propre.' }], sets: 4, reps: '8', charge: '2×12 kg', rpe: 8, tempo: '2-1-1-0' },
+  po1: { muse: 'alya', image: '/muses/alya-hipthrust.png', name: 'Hip Thrust lourd', objectPosition: 'center 35%', cadence: 'hipthrust', arc: 'up', coach: 'Charge maximale sur peu de reps. Explose vers le haut.', cues: [{ l: 'CHARGE', s: 'Lourd — 5 à 6 reps propres.' }, { l: 'POUSSÉE', s: 'Explosive en montée.' }, { l: 'CONTRÔLE', s: 'Descente maîtrisée.' }], sets: 5, reps: '6', charge: 'KB 16 kg', rpe: 9, tempo: '1-1-2-0', avoid: ['dos'] },
+  po2: { muse: 'sora', image: '/muses/sora-squat.png', name: 'Squat bulgare lesté', objectPosition: 'center 40%', cadence: 'squat', arc: 'down', coach: 'Profond et puissant. Reste gainée.', cues: [{ l: 'PROFONDEUR', s: 'Descends bas, genou stable.' }, { l: 'LESTE', s: 'Haltères ou kettlebell.' }, { l: 'GAINAGE', s: 'Tronc solide.' }], sets: 4, reps: '8 / côté', charge: '2×8 kg', rpe: 9, tempo: '2-0-1-0', avoid: ['genoux'] },
+  po3: { muse: 'alya', image: '/muses/alya-rdl.png', name: 'Soulevé roumain lourd', objectPosition: 'center 35%', cadence: 'hinge', arc: 'hinge', coach: 'Charnière puissante, ischios sous tension.', cues: [{ l: 'HANCHE', s: 'Recule fort.' }, { l: 'DOS', s: 'Neutre, gainé.' }, { l: 'CHARGE', s: 'Lourd mais propre.' }], sets: 4, reps: '8', charge: '2×12 kg', rpe: 8, tempo: '2-1-1-0', avoid: ['dos'] },
   po4: { muse: 'sora', image: '/muses/sora-kickback.png', name: 'Kickback explosif', objectPosition: 'center 45%', cadence: 'kickback', arc: 'out', coach: 'Contraction ferme en fin de course.', cues: [{ l: 'AMPLITUDE', s: 'Complète.' }, { l: 'SQUEEZE', s: 'Serre fort 1 s.' }, { l: 'CONTRÔLE', s: 'Retour maîtrisé.' }], sets: 3, reps: '12 / côté', charge: 'Bande / lestée', rpe: 8, tempo: '1-1-2-1' },
   po5: { muse: 'mira', image: '/muses/mira-walk.png', name: 'Marche active', objectPosition: 'center 50%', cadence: 'walk', arc: 'arc', coach: 'Retour au calme dynamique.', cues: [{ l: 'RYTHME', s: 'Soutenu.' }, { l: 'DURÉE', s: '10 min.' }, { l: 'RESPIRE', s: 'Récupère.' }], sets: 1, reps: '10 min', charge: 'Incliné', rpe: 5, tempo: 'continu' },
 
@@ -123,23 +123,44 @@ export const PHASE_SESSIONS = {
   ov: {
     title: 'Lower — Force max', phaseSub: 'PR possibles',
     note: 'Ovulation — force maximale, tu peux viser des records. Garde une technique impeccable.',
-    home: ['po1', 'po2', 'po3', 'po4', 'po5'],
-    gym:  ['g1', 'g3', 'g2', 'g4', 'g6'],
+    home: ['po1', 'po2', 'po3', 'po4', 's4', 'po5'],
+    gym:  ['g1', 'g3', 'g2', 'g4', 'g5', 'g6'],
   },
   lut: {
     title: 'Glutes modéré + Pilates', phaseSub: 'Hypertrophie douce',
     note: 'Phase lutéale — hypertrophie modérée : plus de séries, moins de charge. On termine en douceur avec du Pilates.',
     home: ['pl1', 'pl2', 'pl3', 'pl4', 'pl5'],
-    gym:  ['g5', 'g4', 'pl1', 'pl4', 'pl5'],
+    gym:  ['g5', 'g4', 'g6', 'pl1', 'pl4', 'pl5'],
   },
 };
 
-export function getSession(env, phase) {
+/* Limitations physiques déclarables — utilisées pour filtrer les exos à risque */
+export const INJURY_TAGS = [
+  { k: 'genoux', l: 'Genoux' },
+  { k: 'dos', l: 'Bas du dos' },
+];
+
+/* Exos toujours doux (mobilité/Pilates) — utilisés en remplacement quand une
+   limitation physique exclut trop d'exos d'une séance. */
+const GENTLE_FILLERS = ['pm3', 'pm4', 'pl4', 'pm2', 'pm5'];
+
+export function getSession(env, phase, injuries = []) {
   const ps = PHASE_SESSIONS[phase] || PHASE_SESSIONS.fol;
   const meta = ENV_META[env] || ENV_META.home;
+  const raw = ps[env] || ps.home;
+  const safe = injuries.length
+    ? raw.filter(id => !(EXO_POSES[id]?.avoid || []).some(tag => injuries.includes(tag)))
+    : raw;
+  let exos = safe;
+  const adapted = injuries.length > 0 && safe.length < raw.length;
+  if (adapted) {
+    const needed = Math.max(0, Math.min(raw.length, 3) - safe.length);
+    const fillers = GENTLE_FILLERS.filter(id => !safe.includes(id)).slice(0, needed);
+    exos = [...safe, ...fillers];
+  }
   return {
     key: env, label: meta.label, sub: meta.sub, icon: meta.icon,
-    exos: ps[env] || ps.home,
+    exos, adapted,
     title: ps.title, note: ps.note, phaseSub: ps.phaseSub,
   };
 }

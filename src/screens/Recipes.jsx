@@ -7,6 +7,7 @@ import { isRecipeSafe } from '../data/diet';
 import { WarmAurora, Glass } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { LV3TabBar } from '../components/LV3TabBar';
+import { RecipeIllustration } from '../components/RecipeIllustration';
 
 export function Recipes() {
   const st = useLune();
@@ -98,9 +99,9 @@ export function Recipes() {
             return (
               <Glass key={r.id} onClick={() => openRecipe(r.id)} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
                 <div style={{ display: 'flex', alignItems: 'stretch' }}>
-                  {/* Gradient glyph tile (pas de fausse photo de plat) */}
+                  {/* Illustration maison (pas de fausse photo de plat) */}
                   <div style={{ width: 92, flexShrink: 0, background: `linear-gradient(150deg, ${rMuse.palette.accent}44, ${rMuse.palette.base})`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                    <span className="lv3-serif" style={{ fontSize: 40, fontStyle: 'italic', color: rMuse.palette.accent, opacity: .9 }}>{r.glyph}</span>
+                    <RecipeIllustration visual={r.visual} color={rMuse.palette.accent} size={48} />
                   </div>
                   <div style={{ flex: 1, padding: '13px 14px', minWidth: 0 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>

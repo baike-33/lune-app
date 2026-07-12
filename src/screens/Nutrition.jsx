@@ -8,6 +8,7 @@ import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { LV3TabBar } from '../components/LV3TabBar';
 import { AddMealSheet } from '../components/AddMealSheet';
 import { computeNutritionTarget } from '../utils/nutrition';
+import { isToday } from '../utils/dateScope';
 
 export function Nutrition() {
   const st = useLune();
@@ -15,7 +16,7 @@ export function Nutrition() {
   const m = MUSES[muse];
   const goalDef = GOALS[st.goal] || GOALS.global;
   const target = computeNutritionTarget(st, st.goal || 'global', goalDef);
-  const log = st.mealLog || [];
+  const log = (st.mealLog || []).filter(x => isToday(x.date));
   const [sheetOpen, setSheetOpen] = useState(false);
 
   // Totaux du jour à partir des repas réellement enregistrés
@@ -87,9 +88,14 @@ export function Nutrition() {
               <button onClick={() => luneNav('recipes')} style={{ background: 'none', border: `1px solid ${LV3.glassLine2}`, borderRadius: 99, padding: '7px 13px', cursor: 'pointer', color: LV3.ink2, fontFamily: "'IBM Plex Mono', monospace", fontSize: 9.5, letterSpacing: '.08em' }}>Changer ›</button>
             </div>
             <div className="lv3-mono" style={{ fontSize: 9, color: target.personalized ? m.palette.accent : LV3.ink3, marginTop: 10, lineHeight: 1.5 }}>
-              {target.personalized
-                ? 'Calcul sur mesure · taille, poids, âge & activité'
-                : <>Estimation générique — <button onClick={() => luneNav('settings')} style={{ background: 'none', border: 'none', padding: 0, color: m.palette.accent, textDecorationLine: 'underline', cursor: 'pointer', fontFamily: "'IBM Plex Mono', monospace", fontSize: 9 }}>renseigne ton profil</button> pour un calcul sur mesure</>}
+              {target.overridden
+                ? 'Cible manuelle · définie dans Réglages'
+                : target.personalized
+                  ? 'Calcul sur mesure · taille, poids, âge & activité'
+                  : <>Estimation générique — <button onClick={() => luneNav('settings')} style={{ background: 'none', border: 'none', padding: 0, color: m.palette.accent, textDecorationLine: 'underline', cursor: 'pointer', fontFamily: "'IBM Plex Mono', monospace", fontSize: 9 }}>renseigne ton profil</button> pour un calcul sur mesure</>}
+            </div>
+            <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginTop: 6, lineHeight: 1.5 }}>
+              ≈ {Math.round(target.kcal / (st.mealsPerDay || 4))} kcal / repas · {st.mealsPerDay || 4} repas
             </div>
           </Glass>
         </div>

@@ -5,13 +5,10 @@ import { WarmAurora, Glass } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { LV3TabBar } from '../components/LV3TabBar';
 import { todayLabel } from '../utils/format';
+import { todayISO } from '../utils/dateScope';
 
 const DAY_LETTERS = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // getDay(): 0=dim ... 6=sam
 const ENERGY_LABELS = ['Très basse', 'Basse', 'Stable', 'Bonne', 'Haute'];
-
-function todayISO() {
-  return new Date().toISOString().slice(0, 10);
-}
 
 function last7Days() {
   const days = [];
@@ -64,7 +61,8 @@ export function Journal() {
   const moodLog = st.moodLog || {};
   const past7 = last7Days().map(d => ({ ...d, m: moodLog[d.iso] || (d.today ? mood : null) }));
 
-  const sleepDisplay = st.healthConnected ? `${st.health.sleepH} h` : '—';
+  const todaySleep = (st.healthManual || {})[todayISO()]?.sleepH;
+  const sleepDisplay = todaySleep != null ? `${todaySleep} h` : '—';
 
   return (
     <div style={lv3Phone(muse)}>
@@ -110,11 +108,10 @@ export function Journal() {
           <Glass tight style={{ padding: '16px 16px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
               <div
-                onClick={() => !st.healthConnected && luneNav('health')}
-                role={st.healthConnected ? undefined : 'button'}
-                tabIndex={st.healthConnected ? undefined : 0}
-                onKeyDown={(e) => { if (!st.healthConnected && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); luneNav('health'); } }}
-                style={{ cursor: st.healthConnected ? 'default' : 'pointer' }}
+                onClick={() => luneNav('health')}
+                role="button" tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); luneNav('health'); } }}
+                style={{ cursor: 'pointer' }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontSize: 14, color: LV3.lavender }}>☾</span>
@@ -122,7 +119,7 @@ export function Journal() {
                 </div>
                 <div className="lv3-serif" style={{ fontSize: 28, fontStyle: 'italic', lineHeight: 1, marginTop: 6 }}>{sleepDisplay}</div>
                 <div className="lv3-mono" style={{ fontSize: 10, color: LV3.ink3, marginTop: 3 }}>
-                  {st.healthConnected ? 'via Apple Santé' : 'Connecter Apple Santé ›'}
+                  {todaySleep != null ? 'Modifier ›' : 'Renseigner ›'}
                 </div>
               </div>
               <div>

@@ -33,10 +33,10 @@ export function Program() {
     const ph = noCycle ? todayPhase : phaseForDay(((s.cycleDay - 1 + i) % s.cycleLength + s.cycleLength) % s.cycleLength + 1);
     return {
       i, phase: ph, letter: DAY_LETTERS[date.getDay()], dayNum: date.getDate(),
-      training: isTrainingDay(ph, goal, date), session: getSession(env, ph),
+      training: isTrainingDay(ph, goal, date, s.preferredTrainingDays || []), session: getSession(env, ph, s.injuries || []),
     };
   });
-  const weeklyCount = trainingWeekdaysFor(todayPhase, goal).length;
+  const weeklyCount = trainingWeekdaysFor(todayPhase, goal, s.preferredTrainingDays || []).length;
 
   return (
     <div style={lv3Phone(muse)}>
@@ -59,7 +59,7 @@ export function Program() {
                   background: isA ? `linear-gradient(135deg, ${m.palette.accent}, ${LV3.peach2})` : 'transparent',
                   color: isA ? '#231016' : LV3.ink2, fontFamily: "'IBM Plex Mono', monospace", fontSize: 9.5, letterSpacing: '.08em', fontWeight: 600,
                 }}>
-                  <span aria-hidden="true">{getSession(e, todayPhase).icon}</span>{getSession(e, todayPhase).label}
+                  <span aria-hidden="true">{getSession(e, todayPhase, s.injuries || []).icon}</span>{getSession(e, todayPhase, s.injuries || []).label}
                 </button>
               );
             })}
@@ -119,7 +119,7 @@ export function Program() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {PHASE_ORDER.map(ph => {
               const pm = MUSES[PHASE_TO_MUSE[ph]];
-              const session = getSession(env, ph);
+              const session = getSession(env, ph, s.injuries || []);
               const isOpen = selectedPhase === ph;
               const goalNote = GOAL_TRAINING_NOTES[goal]?.[ph];
               return (
@@ -132,7 +132,7 @@ export function Program() {
                   >
                     <MuseAvatar muse={PHASE_TO_MUSE[ph]} size={44} ring={isOpen} />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div className="lv3-mono" style={{ fontSize: 9, letterSpacing: '.14em', color: pm.palette.accent }}>{PHASES[ph].label.toUpperCase()} · {PHASES[ph].days} · {trainingWeekdaysFor(ph, goal).length}×/sem</div>
+                      <div className="lv3-mono" style={{ fontSize: 9, letterSpacing: '.14em', color: pm.palette.accent }}>{PHASES[ph].label.toUpperCase()} · {PHASES[ph].days} · {trainingWeekdaysFor(ph, goal, s.preferredTrainingDays || []).length}×/sem</div>
                       <div className="lv3-serif" style={{ fontSize: 18, fontStyle: 'italic', color: LV3.ink, marginTop: 3, lineHeight: 1.1 }}>{session.title}</div>
                     </div>
                     <span aria-hidden="true" style={{ color: LV3.ink3, fontSize: 14, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>⌄</span>
@@ -141,6 +141,11 @@ export function Program() {
                   {isOpen && (
                     <div style={{ padding: '0 16px 16px' }}>
                       <div style={{ fontSize: 12.5, color: LV3.ink2, lineHeight: 1.5, marginBottom: 10 }}>{session.note}</div>
+                      {session.adapted && (
+                        <div style={{ padding: '9px 12px', borderRadius: 12, background: `${LV3.sage}14`, borderLeft: `2px solid ${LV3.sage}`, marginBottom: 12 }}>
+                          <div style={{ fontSize: 11.5, color: LV3.ink2, lineHeight: 1.5 }}>Séance adaptée à tes limitations physiques (Réglages › Entraînement).</div>
+                        </div>
+                      )}
                       {goalNote && (
                         <div style={{ padding: '10px 12px', borderRadius: 12, background: `${pm.palette.accent}14`, borderLeft: `2px solid ${pm.palette.accent}`, marginBottom: 12 }}>
                           <div className="lv3-mono" style={{ fontSize: 8, letterSpacing: '.12em', color: pm.palette.accent, marginBottom: 4 }}>{GOALS[goal].label.toUpperCase()}</div>

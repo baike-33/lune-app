@@ -7,8 +7,9 @@ import { WarmAurora, Glass } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { MuseAvatar } from '../components/MuseAvatar';
 import { ExoPose } from '../components/ExoPose';
+import { INJURY_TAGS } from '../data/poses';
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 function ctaStyle(accent) {
   return {
@@ -33,6 +34,9 @@ export function Onboarding({ onDone }) {
   const [heightInput, setHeightInput] = useState('');
   const [weightInput, setWeightInput] = useState('');
   const [birthYearInput, setBirthYearInput] = useState('');
+  const [equipment, setEquipment] = useState('home');
+  const [injuriesSel, setInjuriesSel] = useState([]);
+  const toggleInjury = (k) => setInjuriesSel(cur => cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k]);
 
   const activeMuseKey = cycleMode === 'none' ? fixedMuse : (phase ? PHASE_TO_MUSE[phase] : null);
   const muse = activeMuseKey ? MUSES[activeMuseKey] : MUSES.lina;
@@ -73,6 +77,8 @@ export function Onboarding({ onDone }) {
       ...(weight ? { startWeight: weight } : {}),
       ...(newMeasurement ? { measurements: [newMeasurement] } : {}),
       ...(birthYearInput.trim() ? { birthYear: Number(birthYearInput) } : {}),
+      workoutEnv: equipment,
+      injuries: injuriesSel,
     });
     onDone();
   };
@@ -357,6 +363,58 @@ export function Onboarding({ onDone }) {
                 ))}
               </div>
             </div>
+            <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+              <button onClick={back} style={{ padding: '16px 20px', borderRadius: 99, border: `1px solid ${LV3.glassLine}`, background: 'transparent', color: LV3.ink2, fontFamily: 'Manrope, sans-serif', fontSize: 13, cursor: 'pointer' }}>←</button>
+              <button onClick={next} className="lv3-fab" style={{ ...ctaStyle(accent), flex: 1 }}>
+                Continuer →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 6 — Équipement + limitations physiques */}
+        {step === 6 && (
+          <div className="lv3-rise" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div className="lv3-mono" style={{ fontSize: 10, letterSpacing: '.22em', color: accent }}>TON ENTRAÎNEMENT</div>
+            <h2 className="lv3-serif" style={{ fontSize: 28, fontStyle: 'italic', margin: '10px 0 6px', lineHeight: 1.05 }}>
+              Où t'<em style={{ color: accent }}>entraînes</em>-tu ?
+            </h2>
+            <p style={{ fontSize: 13, color: LV3.ink3, marginBottom: 16 }}>Modifiable à tout moment dans Réglages.</p>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 22 }}>
+              {[{ k: 'home', l: 'Maison', s: 'Poids du corps & kettlebell' }, { k: 'gym', l: 'Salle', s: 'Machines & charges libres' }].map(o => {
+                const isA = equipment === o.k;
+                return (
+                  <button key={o.k} onClick={() => setEquipment(o.k)} style={{
+                    flex: 1, padding: '16px 14px', borderRadius: 18, cursor: 'pointer', textAlign: 'left', border: 'none',
+                    background: isA ? `${accent}1F` : 'rgba(255,255,255,0.04)',
+                    outline: `1px solid ${isA ? accent : LV3.glassLine}`, fontFamily: 'Manrope, sans-serif',
+                  }}>
+                    <div className="lv3-serif" style={{ fontSize: 17, fontStyle: 'italic', color: isA ? accent : LV3.ink }}>{o.l}</div>
+                    <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginTop: 4, lineHeight: 1.4 }}>{o.s}</div>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="lv3-mono" style={{ fontSize: 10, letterSpacing: '.14em', color: LV3.ink3, marginBottom: 10 }}>
+              LIMITATIONS PHYSIQUES · OPTIONNEL
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {INJURY_TAGS.map(t => {
+                const isA = injuriesSel.includes(t.k);
+                return (
+                  <button key={t.k} onClick={() => toggleInjury(t.k)} aria-pressed={isA} style={{
+                    padding: '10px 16px', borderRadius: 99, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                    background: isA ? `${LV3.rose}26` : 'rgba(255,255,255,0.04)',
+                    color: isA ? LV3.rose : LV3.ink2, fontSize: 13, fontWeight: isA ? 600 : 400,
+                    outline: `1px solid ${isA ? LV3.rose : LV3.glassLine}`,
+                  }}>{t.l}</button>
+                );
+              })}
+            </div>
+            <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginTop: 10, lineHeight: 1.6 }}>
+              On adapte les exos à risque avec des variantes douces.
+            </div>
+            <div style={{ flex: 1 }} />
             <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
               <button onClick={back} style={{ padding: '16px 20px', borderRadius: 99, border: `1px solid ${LV3.glassLine}`, background: 'transparent', color: LV3.ink2, fontFamily: 'Manrope, sans-serif', fontSize: 13, cursor: 'pointer' }}>←</button>
               <button onClick={finish} className="lv3-fab" style={{ ...ctaStyle(accent), flex: 1 }}>

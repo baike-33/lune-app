@@ -1,17 +1,18 @@
 /* Régimes & allergies — filtrage des recettes et des aliments par mots-clés. */
 
 export const ALLERGENS = [
-  { k: 'gluten', l: 'Sans gluten', keywords: ['avoine', 'flocons', 'tortilla', 'blé'] },
+  { k: 'gluten', l: 'Sans gluten', keywords: ['avoine', 'flocons', 'tortilla', 'blé', 'pain', 'granola'] },
   { k: 'lactose', l: 'Sans lactose', keywords: ['lait', 'skyr', 'feta', 'yaourt', 'fromage'] },
   { k: 'fruitsACoque', l: 'Sans fruits à coque', keywords: ['amande', 'noix', 'cacahuète', 'noisette'] },
   { k: 'poisson', l: 'Sans poisson', keywords: ['saumon', 'sardine', 'morue', 'poisson'] },
   { k: 'oeufs', l: 'Sans œufs', keywords: ['œuf', 'oeuf'] },
-  { k: 'soja', l: 'Sans soja', keywords: ['soja', 'tofu'] },
+  { k: 'soja', l: 'Sans soja', keywords: ['soja', 'tofu', 'miso', 'edamame'] },
 ];
 
 export const DIETS = [
   { k: 'vegetarien', l: 'Végétarien' },
   { k: 'vegan', l: 'Végan' },
+  { k: 'pescatarien', l: 'Pescatarien' },
 ];
 
 function normalize(s) {
