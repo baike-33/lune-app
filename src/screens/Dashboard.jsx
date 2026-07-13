@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { LV3, lv3Label, lv3Phone } from '../theme/tokens';
 import { MUSES, PHASE_TO_MUSE } from '../data/muses';
 import { useLune, phaseForDay, activePhase, luneNav, GOALS } from '../store/luneStore';
-import { getSession } from '../data/poses';
+import { getDaySession } from '../data/poses';
 import { WarmAurora, Glass, CycleRingV3 } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { MuseAvatar } from '../components/MuseAvatar';
@@ -10,7 +10,7 @@ import { ExoPose } from '../components/ExoPose';
 import { LV3TabBar } from '../components/LV3TabBar';
 import { AddActivitySheet } from '../components/AddActivitySheet';
 import { todayLabel } from '../utils/format';
-import { isTrainingDay, restMessage } from '../data/schedule';
+import { restMessage, resolveSessionWeekday } from '../data/schedule';
 import { computeNutritionTarget } from '../utils/nutrition';
 import { isToday, todayISO } from '../utils/dateScope';
 
@@ -23,8 +23,9 @@ export function Dashboard() {
   const m = MUSES[muse];
   const [actSheet, setActSheet] = useState(false);
   const phaseKey = activePhase(s);
-  const session = getSession(s.workoutEnv || 'home', phaseKey, s.injuries || []);
-  const training = isTrainingDay(phaseKey, s.goal || 'global', new Date(), s.preferredTrainingDays || []);
+  const todayWeekday = resolveSessionWeekday(new Date().getDay(), s.preferredTrainingDays || []);
+  const session = getDaySession(s.workoutEnv || 'home', todayWeekday, phaseKey, s.injuries || []);
+  const training = !session.isRest;
   const goal = computeNutritionTarget(s, s.goal || 'global', GOALS[s.goal] || GOALS.global);
   const mealTotals = (s.mealLog || []).filter(x => isToday(x.date)).reduce((a, x) => ({ p: a.p + (x.p || 0), c: a.c + (x.c || 0), f: a.f + (x.f || 0) }), { p: 0, c: 0, f: 0 });
   const todayISOKey = todayISO();
@@ -61,12 +62,11 @@ export function Dashboard() {
                   </div>
                   <div className="lv3-mono" style={{ fontSize: 10.5, color: LV3.ink2, marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     <span>{session.exos.length} exos</span>
-                    <span style={{ opacity: .4 }}>·</span>
-                    <span style={{ color: m.palette.accent }}>{session.phaseSub}</span>
+                    {session.optional && (<><span style={{ opacity: .4 }}>·</span><span style={{ color: m.palette.accent }}>Optionnel</span></>)}
                   </div>
                   <div style={{ flex: 1 }} />
                   <div className="lv3-mono" style={{ fontSize: 9.5, color: LV3.ink3, marginTop: 8, letterSpacing: '.08em' }}>
-                    Adaptée à ta phase · {m.phaseLabel}
+                    {m.phaseLabel} · {m.energy.toLowerCase()}
                   </div>
                 </div>
               </div>
@@ -160,7 +160,7 @@ export function Dashboard() {
           <div style={{ ...lv3Label, color: LV3.ink3, marginBottom: 10, paddingLeft: 4 }}>Et aussi…</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
             {[
-              { l: 'Programme', s: 'Ta semaine · les 4 phases', i: '▤', c: m.palette.accent, to: 'programme' },
+              { l: 'Programme', s: 'Ta semaine type · 5 jours', i: '▤', c: m.palette.accent, to: 'programme' },
               { l: 'Activité', s: 'Marche, yoga… hors programme', i: '⊳', c: LV3.sage, act: true },
               { l: 'Bilan', s: 'Ta semaine en un coup d\'œil', i: '◈', c: m.palette.accent, to: 'bilan' },
               { l: 'Journal', s: 'Mood · sommeil · symptômes', i: '✎', c: LV3.lavender, to: 'journal' },

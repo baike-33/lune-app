@@ -1,7 +1,8 @@
 import { LV3, lv3Label, lv3Phone } from '../theme/tokens';
 import { MUSES } from '../data/muses';
-import { EXO_POSES, getSession } from '../data/poses';
+import { EXO_POSES, getDaySession } from '../data/poses';
 import { useLune, LuneStore, activePhase, luneNav, luneBack } from '../store/luneStore';
+import { resolveSessionWeekday } from '../data/schedule';
 import { WarmAurora, Glass, RingProgress } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { MuseAvatar } from '../components/MuseAvatar';
@@ -17,7 +18,8 @@ export function ExoDetail() {
   const muse = pose.muse;
   const m = MUSES[muse];
   const phase = activePhase(s);
-  const session = getSession(s.workoutEnv || 'home', phase);
+  const todayWeekday = resolveSessionWeekday(new Date().getDay(), s.preferredTrainingDays || []);
+  const session = getDaySession(s.workoutEnv || 'home', todayWeekday, phase, s.injuries || []);
   const inToday = session.exos.includes(exoId);
   const doneSets = (s.workoutDone || {})[exoId] || [];
   const completed = doneSets.filter(Boolean).length;

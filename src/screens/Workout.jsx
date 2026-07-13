@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { LV3, lv3Label, lv3Phone } from '../theme/tokens';
 import { MUSES, PHASE_TO_MUSE } from '../data/muses';
 import { useLune, LuneStore, activePhase, luneNav, GOALS } from '../store/luneStore';
-import { EXO_POSES, getSession, getExo } from '../data/poses';
+import { EXO_POSES, ENV_META, getDaySession, getExo } from '../data/poses';
 import { GOAL_TRAINING_NOTES } from '../data/goalNotes';
-import { REST_SECONDS_BY_GOAL } from '../data/schedule';
+import { REST_SECONDS_BY_GOAL, resolveSessionWeekday } from '../data/schedule';
 import { WarmAurora, Glass, RingProgress } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { ExoPose, ExoThumb } from '../components/ExoPose';
@@ -18,11 +18,12 @@ export function Workout() {
   const m = MUSES[muse];
   const env = s.workoutEnv || 'home';
   const phaseKey = activePhase(s);
-  const session = getSession(env, phaseKey, s.injuries || []);
+  const todayWeekday = resolveSessionWeekday(new Date().getDay(), s.preferredTrainingDays || []);
+  const session = getDaySession(env, todayWeekday, phaseKey, s.injuries || []);
   const exos = session.exos;
   const goalNote = GOAL_TRAINING_NOTES[s.goal || 'global']?.[phaseKey];
   const restDuration = REST_SECONDS_BY_GOAL[s.goal || 'global'] || 75;
-  const setEnv = (e) => LuneStore.set({ workoutEnv: e, workoutActiveExo: getSession(e, phaseKey, s.injuries || []).exos[0], workoutDone: {} });
+  const setEnv = (e) => LuneStore.set({ workoutEnv: e, workoutActiveExo: getDaySession(e, todayWeekday, phaseKey, s.injuries || []).exos[0], workoutDone: {} });
   const activeExo = exos.includes(s.workoutActiveExo) ? s.workoutActiveExo : exos[0];
   const setActiveExo = (id) => LuneStore.set({ workoutActiveExo: id });
   const done = s.workoutDone || {};
@@ -79,7 +80,7 @@ export function Workout() {
                   background: isA ? `linear-gradient(135deg, ${m.palette.accent}, ${LV3.peach2})` : 'transparent',
                   color: isA ? '#231016' : LV3.ink2, fontFamily: "'IBM Plex Mono', monospace", fontSize: 9.5, letterSpacing: '.08em', fontWeight: 600,
                 }}>
-                  <span aria-hidden="true">{getSession(e, phaseKey, s.injuries || []).icon}</span>{getSession(e, phaseKey, s.injuries || []).label}
+                  <span aria-hidden="true">{ENV_META[e].icon}</span>{ENV_META[e].label}
                 </button>
               );
             })}
@@ -203,7 +204,7 @@ export function Workout() {
             padding: '9px', marginBottom: 10, borderRadius: 99, cursor: 'pointer',
             background: 'rgba(255,255,255,0.03)', border: `1px solid ${LV3.glassLine}`, color: m.palette.accent,
             fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, letterSpacing: '.06em',
-          }}>Voir le programme complet · les 4 phases →</button>
+          }}>Voir le programme complet · la semaine →</button>
           <Glass tight style={{ padding: '6px 6px' }}>
             {exos.map((id, i) => {
               const e = getExo(id);

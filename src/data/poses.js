@@ -1,6 +1,7 @@
 /* Chaque exo a sa photo, sa muse, sa cadence. */
+import { WEEK_EXO_POSES, WEEK_PROGRAM, PHASE_WEEK_NOTES } from './weekProgram';
 
-export const EXO_POSES = {
+const LEGACY_EXO_POSES = {
   s1: {
     muse: 'alya', image: '/muses/alya-hipthrust.png', name: 'Hip Thrust',
     objectPosition: 'center 35%', cadence: 'hipthrust', arc: 'up',
@@ -100,38 +101,14 @@ export const EXO_POSES = {
   pl5: { muse: 'mira', image: '/muses/mira-walk.png', name: 'Marche inclinée', objectPosition: 'center 50%', cadence: 'walk', arc: 'arc', coach: 'Termine en douceur, anti-rumination.', cues: [{ l: 'INCLIN.', s: '10–12 %.' }, { l: 'DURÉE', s: '12 min.' }, { l: 'ESPRIT', s: 'Relâche la journée.' }], sets: 1, reps: '12 min', charge: 'Incliné', rpe: 5, tempo: 'continu' },
 };
 
+/* Fusion du fonds historique (mens/ov/lut doux, utilisé comme filler) et du
+   programme hebdomadaire fixe importé de la référence. */
+export const EXO_POSES = { ...LEGACY_EXO_POSES, ...WEEK_EXO_POSES };
+
 /* Métadonnées d'environnement (Maison / Salle) */
 export const ENV_META = {
   home: { label: 'Maison', sub: 'Poids du corps & kettlebell', icon: '⌂' },
   gym:  { label: 'Salle',  sub: 'Machines & charges libres',   icon: '▥' },
-};
-
-/* Programme adapté à CHAQUE phase du cycle */
-export const PHASE_SESSIONS = {
-  mens: {
-    title: 'Pilates & mobilité douce', phaseSub: 'Repos actif',
-    note: 'Phase menstruelle — on évite le lourd et les grosses séances Lower Body. Respiration, mobilité et activation légère : on respecte ton énergie basse.',
-    home: ['pm1', 'pm2', 'pm3', 'pm4', 'pm5', 'pm6'],
-    gym:  ['pm1', 'pm2', 'pm3', 'pm4', 'pm5', 'pm6'],
-  },
-  fol: {
-    title: 'Lower Body — Force', phaseSub: "Ton pic d'énergie",
-    note: 'Phase folliculaire — ton énergie remonte. C\'est le moment de pousser les charges et de progresser.',
-    home: ['s1', 's2', 's3', 's4', 's5', 's6'],
-    gym:  ['g1', 'g2', 'g3', 'g4', 'g5', 'g6'],
-  },
-  ov: {
-    title: 'Lower — Force max', phaseSub: 'PR possibles',
-    note: 'Ovulation — force maximale, tu peux viser des records. Garde une technique impeccable.',
-    home: ['po1', 'po2', 'po3', 'po4', 's4', 'po5'],
-    gym:  ['g1', 'g3', 'g2', 'g4', 'g5', 'g6'],
-  },
-  lut: {
-    title: 'Glutes modéré + Pilates', phaseSub: 'Hypertrophie douce',
-    note: 'Phase lutéale — hypertrophie modérée : plus de séries, moins de charge. On termine en douceur avec du Pilates.',
-    home: ['pl1', 'pl2', 'pl3', 'pl4', 'pl5'],
-    gym:  ['g5', 'g4', 'g6', 'pl1', 'pl4', 'pl5'],
-  },
 };
 
 /* Limitations physiques déclarables — utilisées pour filtrer les exos à risque */
@@ -144,10 +121,26 @@ export const INJURY_TAGS = [
    limitation physique exclut trop d'exos d'une séance. */
 const GENTLE_FILLERS = ['pm3', 'pm4', 'pl4', 'pm2', 'pm5'];
 
-export function getSession(env, phase, injuries = []) {
-  const ps = PHASE_SESSIONS[phase] || PHASE_SESSIONS.fol;
+/* Séance du jour — programme hebdomadaire fixe (Lun/Mar/Jeu/Ven obligatoires,
+   Sam optionnel, Mer/Dim repos). La phase du cycle module seulement la note
+   de guidance affichée, jamais les exercices eux-mêmes. */
+export function getDaySession(env, weekday, phase, injuries = []) {
   const meta = ENV_META[env] || ENV_META.home;
-  const raw = ps[env] || ps.home;
+  const notes = PHASE_WEEK_NOTES[env] || PHASE_WEEK_NOTES.home;
+  const note = notes[phase] || '';
+  const day = (WEEK_PROGRAM[env] || WEEK_PROGRAM.home)[weekday];
+
+  if (!day) {
+    // Jour de repos officiel — si on s'entraîne quand même, on propose du
+    // Pilates/mobilité douce plutôt que rien.
+    return {
+      key: env, label: meta.label, sub: meta.sub, icon: meta.icon,
+      exos: GENTLE_FILLERS, adapted: false, isRest: true, optional: false,
+      title: 'Repos actif', tag: 'Mobilité douce · optionnel', warmup: '', note,
+    };
+  }
+
+  const raw = day.exos;
   const safe = injuries.length
     ? raw.filter(id => !(EXO_POSES[id]?.avoid || []).some(tag => injuries.includes(tag)))
     : raw;
@@ -160,9 +153,13 @@ export function getSession(env, phase, injuries = []) {
   }
   return {
     key: env, label: meta.label, sub: meta.sub, icon: meta.icon,
-    exos, adapted,
-    title: ps.title, note: ps.note, phaseSub: ps.phaseSub,
+    exos, adapted, isRest: false,
+    title: day.title, tag: day.tag, warmup: day.warmup, optional: day.optional, note,
   };
+}
+
+export function isTrainingWeekday(env, weekday) {
+  return !!(WEEK_PROGRAM[env] || WEEK_PROGRAM.home)[weekday];
 }
 
 export function getExo(id) {
