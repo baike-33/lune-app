@@ -8,12 +8,13 @@ const FIELD_DEFS = [
   { k: 'weight', l: 'Poids', kind: 'weight' },
   { k: 'waist', l: 'Taille', kind: 'length' },
   { k: 'hips', l: 'Hanches', kind: 'length' },
+  { k: 'bust', l: 'Poitrine', kind: 'length' },
   { k: 'thigh', l: 'Cuisse', kind: 'length' },
 ];
 
 export function AddMeasurementSheet({ open, onClose, accent }) {
   const st = useLune();
-  const [values, setValues] = useState({ weight: '', waist: '', hips: '', thigh: '' });
+  const [values, setValues] = useState({ weight: '', waist: '', hips: '', bust: '', thigh: '' });
   useEscapeClose(open, onClose);
   if (!open) return null;
 
@@ -29,7 +30,7 @@ export function AddMeasurementSheet({ open, onClose, accent }) {
       entry[f.k] = f.kind === 'weight' ? displayToKg(values[f.k], st.units) : displayToCm(values[f.k], st.units);
     });
     LuneStore.set(s => ({ measurements: [...(s.measurements || []), entry] }));
-    setValues({ weight: '', waist: '', hips: '', thigh: '' });
+    setValues({ weight: '', waist: '', hips: '', bust: '', thigh: '' });
     onClose();
   };
 

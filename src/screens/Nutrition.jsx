@@ -119,6 +119,11 @@ export function Nutrition() {
             <div className="lv3-serif" style={{ fontSize: 16, fontStyle: 'italic', marginTop: 6, lineHeight: 1.4 }}>
               {m.food}
             </div>
+            {m.nutritionTip && (
+              <div style={{ fontSize: 12, color: LV3.ink2, marginTop: 10, paddingTop: 10, borderTop: `1px solid ${LV3.faint}`, lineHeight: 1.55 }}>
+                {m.nutritionTip}
+              </div>
+            )}
           </Glass>
         </div>
 

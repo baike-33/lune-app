@@ -15,6 +15,7 @@ export const MUSES = {
     archetype: 'La Sage',
     train: 'Marche, yoga, mobilité. Pas de lourd.',
     food: 'Fer ↑, magnésium, tisane, soupes chaudes.',
+    nutritionTip: "Privilégie le fer : viande rouge maigre, lentilles + poivron (la vitamine C aide l'absorption), épinards. Curcuma et gingembre en anti-inflammatoires naturels. Chocolat noir 85% autorisé, sans culpabiliser.",
     feel: 'Repos sacré. Pas de culpabilité.',
   },
   alya: {
@@ -31,6 +32,7 @@ export const MUSES = {
     archetype: 'La Bâtisseuse',
     train: "Phase d'or. Pousse les charges, progresse.",
     food: 'Protéines hautes, glucides timing péri-séance.',
+    nutritionTip: "Glucides complexes autour des séances (riz, patate douce, avoine, quinoa) et 25–30 g de protéines par repas. Ta récupération est la plus rapide du cycle — c'est aussi la meilleure fenêtre pour un léger déficit si l'objectif est d'affiner.",
     feel: 'Confiance, énergie neuve, plans qui prennent forme.',
   },
   sora: {
@@ -47,6 +49,7 @@ export const MUSES = {
     archetype: 'La Guerrière',
     train: 'Force max. PR possibles. Garde la technique.',
     food: 'Glucides légèrement ↑ autour des séances.',
+    nutritionTip: "Antioxydants (myrtilles, framboises, thé vert), hydratation renforcée, zinc et magnésium (graines de courge, amandes). C'est le pic de performance du cycle — pas de restriction ici, mange à ta faim.",
     feel: 'Magnétique. Prends la lumière. Dis oui.',
   },
   lina: {
@@ -63,6 +66,7 @@ export const MUSES = {
     archetype: "L'Artiste",
     train: 'Hypertrophie modérée. Plus de séries, moins de charge.',
     food: 'Glucides complexes ↑, magnésium, pas de restriction.',
+    nutritionTip: "Magnésium le soir (amandes, chocolat noir 85%) pour limiter crampes et fringales. Un peu plus de glucides est normal ici — pas un échec. Réduis le sel si tu retiens l'eau, et ne te pèse pas cette semaine : le chiffre ment.",
     feel: 'Slow down. Routine, douceur, anti-rumination.',
   },
 };

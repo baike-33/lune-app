@@ -29,6 +29,8 @@ import { Program } from './screens/Program';
 import { Privacy } from './screens/Privacy';
 import { Terms } from './screens/Terms';
 import { Landing } from './screens/Landing';
+import { Supplements } from './screens/Supplements';
+import { Mantras } from './screens/Mantras';
 
 /* ─── Router : map clé → écran ─────────────────────────── */
 const SCREENS = {
@@ -53,6 +55,8 @@ const SCREENS = {
   programme: Program,
   privacy: Privacy,
   terms: Terms,
+  supplements: Supplements,
+  mantras: Mantras,
 };
 
 /* ─── App Shell ────────────────────────────────────────── */

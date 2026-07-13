@@ -91,12 +91,14 @@ export function Profile() {
         <div style={{ padding: '4px 16px 16px' }}>
           <Glass tight style={{ padding: '4px 4px' }}>
             {[
+              { l: 'Suppléments', s: 'Ce qui vaut le coup', i: '✚', to: 'supplements' },
+              { l: 'Mental', s: 'Mantras à se rappeler', i: '☾', to: 'mantras' },
               { l: 'Aide & guide', s: 'Comment lire ton cycle', i: '?', to: 'help' },
               { l: 'À propos de Lune', s: 'Slim Thick · Élégant', i: '❍', to: 'about' },
-            ].map((r, i) => (
+            ].map((r, i, arr) => (
               <div key={i} onClick={() => luneNav(r.to)} role="button" tabIndex={0}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); luneNav(r.to); } }}
-                style={{ padding: '14px 14px', display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer', borderBottom: i < 1 ? `1px solid ${LV3.faint}` : 'none' }}>
+                style={{ padding: '14px 14px', display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer', borderBottom: i < arr.length - 1 ? `1px solid ${LV3.faint}` : 'none' }}>
                 <div style={{ width: 30, height: 30, borderRadius: 9, background: 'rgba(255,255,255,0.05)', color: LV3.ink2, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>{r.i}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 13, color: LV3.ink, fontWeight: 500 }}>{r.l}</div>

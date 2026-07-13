@@ -7,7 +7,7 @@ import { LV3TabBar } from '../components/LV3TabBar';
 import { MuseAvatar } from '../components/MuseAvatar';
 import { navBtnStyle } from '../utils/format';
 import { computeNutritionTarget } from '../utils/nutrition';
-import { isWithinDays } from '../utils/dateScope';
+import { isWithinDays, computeStreak } from '../utils/dateScope';
 
 function Stat({ v, l, sub, c }) {
   return (
@@ -39,6 +39,7 @@ export function Bilan() {
     .filter(([d]) => isWithinDays(d, 7))
     .map(([, v]) => v.steps).filter(v => v != null);
   const avgSteps = weekSteps.length ? Math.round(weekSteps.reduce((a, v) => a + v, 0) / weekSteps.length) : null;
+  const streak = computeStreak(Object.keys(s.moodLog || {}));
 
   return (
     <div style={lv3Phone(muse)}>
@@ -80,6 +81,21 @@ export function Bilan() {
           <Stat v={kcalWeek} l="Kcal mangées" sub={`cible ${weekGoalKcal}/sem`} c={LV3.gold} />
           <Stat v={actKcal} l="Kcal dépensées" sub="activités" c={LV3.sage} />
           <Stat v={photos} l="Photos" c={LV3.lavender} />
+        </div>
+
+        {/* Constance — streak journal */}
+        <div style={{ padding: '0 16px 8px' }}>
+          <Glass tight style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <span style={{ fontSize: 22, color: streak > 0 ? m.palette.accent : LV3.ink3 }} aria-hidden="true">◐</span>
+            <div style={{ flex: 1 }}>
+              <div className="lv3-serif" style={{ fontSize: 20, fontStyle: 'italic', color: LV3.ink, lineHeight: 1 }}>
+                {streak} jour{streak > 1 ? 's' : ''} <span style={{ fontSize: 13, color: LV3.ink3, fontStyle: 'normal' }}>d'affilée</span>
+              </div>
+              <div className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3, marginTop: 4 }}>
+                {streak > 0 ? 'Ton journal, jour après jour.' : 'Note ton mood aujourd\'hui pour démarrer une série.'}
+              </div>
+            </div>
+          </Glass>
         </div>
 
         {/* Energy balance */}

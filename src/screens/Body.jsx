@@ -13,6 +13,7 @@ const METRIC_DEFS = [
   { k: 'weight', l: 'Poids', kind: 'weight' },
   { k: 'waist', l: 'Taille', kind: 'length' },
   { k: 'hips', l: 'Hanches', kind: 'length' },
+  { k: 'bust', l: 'Poitrine', kind: 'length' },
   { k: 'thigh', l: 'Cuisse', kind: 'length' },
 ];
 
@@ -38,12 +39,13 @@ function Sparkline({ pts, c }) {
 
 export function Body() {
   const st = useLune();
-  const muse = PHASE_TO_MUSE[activePhase(st)];
+  const phase = activePhase(st);
+  const muse = PHASE_TO_MUSE[phase];
   const m = MUSES[muse];
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const entries = (st.measurements || []).slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-  const colors = { weight: LV3.sage, waist: m.palette.accent, hips: LV3.peach, thigh: LV3.gold };
+  const colors = { weight: LV3.sage, waist: m.palette.accent, hips: LV3.peach, bust: LV3.lavender, thigh: LV3.gold };
   const toDisplay = (kind, v) => v == null ? v : (kind === 'weight' ? kgToDisplay(v, st.units) : cmToDisplay(v, st.units));
 
   const measures = METRIC_DEFS.map(meta => {
@@ -107,6 +109,20 @@ export function Body() {
             <span style={{ fontSize: 16, lineHeight: 1 }}>+</span> Ajouter une mesure
           </button>
         </div>
+
+        {/* Règle d'or — le poids est trompeur hors phase folliculaire */}
+        {st.cycleMode !== 'none' && (
+          <div style={{ padding: '0 16px 12px' }}>
+            <Glass tight style={{ padding: '14px 16px', background: `linear-gradient(135deg, ${LV3.gold}14, ${m.palette.accent}08)`, borderLeft: `2px solid ${LV3.gold}` }}>
+              <div className="lv3-mono" style={{ fontSize: 8.5, letterSpacing: '.14em', color: LV3.gold, marginBottom: 4 }}>RÈGLE D'OR</div>
+              <div style={{ fontSize: 12.5, color: LV3.ink2, lineHeight: 1.55 }}>
+                {phase === 'fol'
+                  ? "Tu es en phase folliculaire — c'est le meilleur moment du cycle pour te peser, le poids y est le plus représentatif."
+                  : "Le poids varie de 0,5 à 2 kg selon le cycle (rétention d'eau en lutéale). Pour un chiffre fiable, pèse-toi surtout en phase folliculaire — le tour de taille compte plus que la balance le reste du temps."}
+              </div>
+            </Glass>
+          </div>
+        )}
 
         {/* Measurements grid */}
         <div style={{ padding: '0 16px 12px' }}>
