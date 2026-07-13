@@ -121,9 +121,19 @@ export const INJURY_TAGS = [
    limitation physique exclut trop d'exos d'une séance. */
 const GENTLE_FILLERS = ['pm3', 'pm4', 'pl4', 'pm2', 'pm5'];
 
+/* Séance Pilates doux — remplace une séance Lower Body intense en phase
+   menstruelle (fidèle à la note de la référence). */
+const MENSTRUAL_GENTLE = ['pm1', 'pm2', 'pm3', 'pm4', 'pm5', 'pm6'];
+
+/* Jours "Lower Body" du split fixe (Lundi, Jeudi) — ceux que la phase
+   menstruelle remplace par du Pilates doux. */
+const LOWER_BODY_WEEKDAYS = [1, 4];
+
 /* Séance du jour — programme hebdomadaire fixe (Lun/Mar/Jeu/Ven obligatoires,
-   Sam optionnel, Mer/Dim repos). La phase du cycle module seulement la note
-   de guidance affichée, jamais les exercices eux-mêmes. */
+   Sam optionnel, Mer/Dim repos). La phase du cycle ajuste la séance :
+   - menstruelle : les jours Lower Body deviennent du Pilates doux
+   - lutéale : volume réduit d'environ 20% (moins d'exercices, moins d'explosif)
+   - folliculaire / ovulation : programme complet, note d'intensité seulement */
 export function getDaySession(env, weekday, phase, injuries = []) {
   const meta = ENV_META[env] || ENV_META.home;
   const notes = PHASE_WEEK_NOTES[env] || PHASE_WEEK_NOTES.home;
@@ -135,14 +145,24 @@ export function getDaySession(env, weekday, phase, injuries = []) {
     // Pilates/mobilité douce plutôt que rien.
     return {
       key: env, label: meta.label, sub: meta.sub, icon: meta.icon,
-      exos: GENTLE_FILLERS, adapted: false, isRest: true, optional: false,
+      exos: GENTLE_FILLERS, adapted: false, phaseAdapted: false, volumeReduced: false,
+      isRest: true, optional: false,
       title: 'Repos actif', tag: 'Mobilité douce · optionnel', warmup: '', note,
     };
   }
 
-  const raw = day.exos;
+  const menstrualSwap = phase === 'mens' && LOWER_BODY_WEEKDAYS.includes(weekday);
+  let title = day.title, tag = day.tag, warmup = day.warmup;
+  let raw = day.exos;
+  if (menstrualSwap) {
+    raw = MENSTRUAL_GENTLE;
+    title = 'Pilates doux · Repos actif';
+    tag = 'Cycle menstruel · intensité réduite';
+    warmup = 'Ambiance douce, respirations profondes — écoute ton corps.';
+  }
+
   const safe = injuries.length
-    ? raw.filter(id => !(EXO_POSES[id]?.avoid || []).some(tag => injuries.includes(tag)))
+    ? raw.filter(id => !(EXO_POSES[id]?.avoid || []).some(t => injuries.includes(t)))
     : raw;
   let exos = safe;
   const adapted = injuries.length > 0 && safe.length < raw.length;
@@ -151,10 +171,17 @@ export function getDaySession(env, weekday, phase, injuries = []) {
     const fillers = GENTLE_FILLERS.filter(id => !safe.includes(id)).slice(0, needed);
     exos = [...safe, ...fillers];
   }
+
+  let volumeReduced = false;
+  if (phase === 'lut' && !menstrualSwap && exos.length > 3) {
+    const keep = Math.max(3, Math.ceil(exos.length * 0.8));
+    if (keep < exos.length) { exos = exos.slice(0, keep); volumeReduced = true; }
+  }
+
   return {
     key: env, label: meta.label, sub: meta.sub, icon: meta.icon,
-    exos, adapted, isRest: false,
-    title: day.title, tag: day.tag, warmup: day.warmup, optional: day.optional, note,
+    exos, adapted, phaseAdapted: menstrualSwap, volumeReduced, isRest: false,
+    title, tag, warmup, optional: day.optional, note,
   };
 }
 

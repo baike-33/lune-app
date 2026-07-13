@@ -135,6 +135,16 @@ export function Program() {
                 <div style={{ fontSize: 11.5, color: LV3.ink2, lineHeight: 1.5 }}>Séance adaptée à tes limitations physiques (Réglages › Entraînement).</div>
               </div>
             )}
+            {selectedSession.phaseAdapted && (
+              <div style={{ padding: '9px 12px', borderRadius: 12, background: `${LV3.sage}14`, borderLeft: `2px solid ${LV3.sage}`, marginTop: 12 }}>
+                <div style={{ fontSize: 11.5, color: LV3.ink2, lineHeight: 1.5 }}>Séance allégée · phase menstruelle — Pilates doux et mobilité à la place du Lower Body.</div>
+              </div>
+            )}
+            {selectedSession.volumeReduced && (
+              <div style={{ padding: '9px 12px', borderRadius: 12, background: `${LV3.gold}14`, borderLeft: `2px solid ${LV3.gold}`, marginTop: 12 }}>
+                <div style={{ fontSize: 11.5, color: LV3.ink2, lineHeight: 1.5 }}>Volume réduit d'environ 20% · phase lutéale.</div>
+              </div>
+            )}
             {selectedSession.warmup && (
               <div style={{ fontSize: 12, color: LV3.ink3, marginTop: 12, lineHeight: 1.5 }}>{selectedSession.warmup}</div>
             )}

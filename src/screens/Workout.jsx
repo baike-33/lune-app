@@ -95,6 +95,12 @@ export function Workout() {
             {session.adapted && (
               <div className="lv3-mono" style={{ fontSize: 9, color: LV3.sage, marginTop: 8 }}>✓ Séance adaptée à tes limitations physiques.</div>
             )}
+            {session.phaseAdapted && (
+              <div className="lv3-mono" style={{ fontSize: 9, color: LV3.sage, marginTop: 8 }}>✓ Pilates doux · phase menstruelle.</div>
+            )}
+            {session.volumeReduced && (
+              <div className="lv3-mono" style={{ fontSize: 9, color: LV3.gold, marginTop: 8 }}>✓ Volume réduit ~20% · phase lutéale.</div>
+            )}
             {goalNote && (
               <div style={{ marginTop: 10, paddingTop: 10, borderTop: `1px solid ${LV3.faint}` }}>
                 <div className="lv3-mono" style={{ fontSize: 7.5, letterSpacing: '.14em', color: LV3.ink3 }}>OBJECTIF · {GOALS[s.goal || 'global'].label.toUpperCase()}</div>
