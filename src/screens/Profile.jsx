@@ -34,7 +34,9 @@ export function Profile() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <MuseAvatar muse={muse} size={66} ring={true} />
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="lv3-serif" style={{ fontSize: 28, fontStyle: 'italic', lineHeight: 1 }}>{s.name || 'toi'}</div>
+              <div className="lv3-serif" style={{ fontSize: 28, fontStyle: 'italic', lineHeight: 1 }}>
+                {s.name || 'toi'}{s.lastName ? ` ${s.lastName.trim().slice(0, 1).toUpperCase()}.` : ''}
+              </div>
               <div className="lv3-mono" style={{ fontSize: 10, color: LV3.ink3, marginTop: 5, letterSpacing: '.04em' }}>
                 {goal.label} · {photoCount > 0 ? `${photoCount} photos` : 'objectif actif'}
               </div>
@@ -91,6 +93,9 @@ export function Profile() {
         <div style={{ padding: '4px 16px 16px' }}>
           <Glass tight style={{ padding: '4px 4px' }}>
             {[
+              { l: 'Bilan personnalisé', s: '5 questions · ton profil', i: '◈', to: 'quiz' },
+              { l: 'Morphologie', s: 'Ton analyse silhouette', i: '⌛', to: 'morpho' },
+              { l: 'Stratégie', s: 'Roadmap 12 mois', i: '▤', to: 'strategie' },
               { l: 'Suppléments', s: 'Ce qui vaut le coup', i: '✚', to: 'supplements' },
               { l: 'Mental', s: 'Mantras à se rappeler', i: '☾', to: 'mantras' },
               { l: 'Aide & guide', s: 'Comment lire ton cycle', i: '?', to: 'help' },

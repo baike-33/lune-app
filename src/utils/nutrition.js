@@ -11,7 +11,7 @@ export const ACTIVITY_LEVELS = [
 ];
 
 /* Ajustement kcal/jour vs maintenance, par objectif */
-const GOAL_ADJUSTMENT = { volume: 250, global: 0, taille: -350, energie: 0 };
+const GOAL_ADJUSTMENT = { volume: 250, global: 0, taille: -350, energie: 0, posture: 0 };
 
 export function latestWeight(state) {
   const entries = (state.measurements || [])

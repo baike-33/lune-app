@@ -25,4 +25,10 @@ export const GOAL_TRAINING_NOTES = {
     ov: "Séance complète si tu te sens bien, sinon réduis les séries — l'objectif reste ton équilibre, pas la performance.",
     lut: 'Ralentis volontairement : cette phase est faite pour recharger, pas pour repousser tes limites.',
   },
+  posture: {
+    mens: "Mobilité colonne et respiration : c'est le moment idéal pour travailler le dos sans charge.",
+    fol: "Ajoute le vacuum abdominal en fin de séance — le gainage profond redessine la posture, pas les abdos superficiels.",
+    ov: "Technique irréprochable : épaules basses, cage thoracique gainée sur chaque répétition, même en charge.",
+    lut: "Termine par 2 min de vacuum et une marche — la posture se construit dans la régularité, pas l'intensité.",
+  },
 };

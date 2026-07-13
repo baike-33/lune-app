@@ -75,6 +75,7 @@ export const GOALS = {
   global:  { label: 'Slim thick global', short: 'Recomposition', kcal: 1850, p: 130, c: 200, f: 70, hint: 'Recomposition : maintien calorique, protéines hautes.' },
   taille:  { label: 'Taille fine', short: 'Sculpture', kcal: 1650, p: 135, c: 150, f: 60, hint: 'Léger déficit, protéines ↑, sucres rapides ↓.' },
   energie: { label: 'Énergie & équilibre', short: 'Maintien', kcal: 1900, p: 120, c: 210, f: 68, hint: "Maintien, focus sur l'énergie stable et le confort digestif." },
+  posture: { label: 'Posture & dos', short: 'Gainage', kcal: 1900, p: 125, c: 210, f: 68, hint: 'Maintien calorique, accent sur le gainage profond et la mobilité du dos.' },
 };
 
 const LUNE_DEFAULTS = {
@@ -84,6 +85,8 @@ const LUNE_DEFAULTS = {
   consentGiven: false,         // consentement RGPD explicite (données de santé) — bloque l'onboarding tant que false
   consentDate: null,           // ISO — horodatage du consentement, pour traçabilité
   name: 'toi',
+  lastName: '',                 // optionnel — sert aux initiales de l'avatar profil
+  morphoType: null,             // 'X'|'A'|'V'|'H'|'O'|'?' — silhouette naturelle, pour l'écran Morpho
   cycleDay: 18,                // → lutéale → Lina (cohérent avec les maquettes)
   goal: 'global',              // objectif perso → cible macros + filtre recettes
   workoutEnv: 'home',          // 'home' | 'gym' — programme maison ou salle
@@ -123,6 +126,8 @@ const LUNE_DEFAULTS = {
   journalNote: '',
   journalEnergy: 3,           // 1–5
   moodLog: {},                // { 'YYYY-MM-DD': moodKey } — historique réel des 7 derniers jours
+  mentalTracker: { weekKey: null, done: [] },  // checklist hebdo (Mental) — persistée, se réinitialise chaque semaine
+  quizProfile: null,            // dernier résultat du Bilan Personnalisé : { key, label, desc, tags, date }
   // nutrition
   mealLog: [                   // repas réellement enregistrés (aujourd'hui)
     { id: 'm1', time: '7h30', date: new Date().toISOString().slice(0, 10), name: 'Skyr · myrtilles · amandes', kcal: 340, p: 32, c: 38, f: 10 },

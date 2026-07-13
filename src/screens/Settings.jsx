@@ -105,9 +105,15 @@ export function Settings() {
         {/* Prénom */}
         <div style={{ padding: '18px 16px 0' }}>
           <div style={{ ...lv3Label, color: LV3.ink3, marginBottom: 10, paddingLeft: 4 }}>Identité</div>
-          <Glass tight style={{ padding: '14px 16px' }}>
-            <div style={labelStyle}>PRÉNOM</div>
-            <input value={s.name === 'toi' ? '' : s.name} onChange={e => setField('name', e.target.value || 'toi')} placeholder="Ton prénom" style={inputStyle} aria-label="Prénom" />
+          <Glass tight style={{ padding: '2px 0' }}>
+            <div style={fieldWrap}>
+              <div style={labelStyle}>PRÉNOM</div>
+              <input value={s.name === 'toi' ? '' : s.name} onChange={e => setField('name', e.target.value || 'toi')} placeholder="Ton prénom" style={inputStyle} aria-label="Prénom" />
+            </div>
+            <div style={{ padding: '14px 16px' }}>
+              <div style={labelStyle}>NOM <span style={{ opacity: .5 }}>(optionnel)</span></div>
+              <input value={s.lastName || ''} onChange={e => setField('lastName', e.target.value)} placeholder="" style={inputStyle} aria-label="Nom de famille" />
+            </div>
           </Glass>
         </div>
 

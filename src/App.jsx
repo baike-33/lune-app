@@ -31,6 +31,9 @@ import { Terms } from './screens/Terms';
 import { Landing } from './screens/Landing';
 import { Supplements } from './screens/Supplements';
 import { Mantras } from './screens/Mantras';
+import { Quiz } from './screens/Quiz';
+import { Morpho } from './screens/Morpho';
+import { Strategie } from './screens/Strategie';
 
 /* ─── Router : map clé → écran ─────────────────────────── */
 const SCREENS = {
@@ -57,6 +60,9 @@ const SCREENS = {
   terms: Terms,
   supplements: Supplements,
   mantras: Mantras,
+  quiz: Quiz,
+  morpho: Morpho,
+  strategie: Strategie,
 };
 
 /* ─── App Shell ────────────────────────────────────────── */

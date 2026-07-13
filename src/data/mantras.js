@@ -33,3 +33,16 @@ export const MANTRAS = [
     detail: "Cycle difficile, trop de travail, séances ratées — ça fait partie de toute transformation physique. La transformation se joue sur la tendance à 3 mois, pas sur les jours isolés. Reprends simplement la prochaine séance.",
   },
 ];
+
+/* Tracker hebdomadaire — habitudes clés, adaptées à ce que l'app suit réellement. */
+export const WEEKLY_TRACKER_ITEMS = [
+  'Toutes les séances programmées cette semaine faites',
+  'Marche ou activité douce en jour de repos',
+  'Vacuum abdominal quotidien',
+  '100 g+ de protéines par jour',
+  '8 verres d\'eau (2 L) par jour',
+  '7h+ de sommeil, au moins 5 nuits',
+  'Repas loggés dans Nutrition',
+  'Mood noté dans le Journal',
+  'Mesure ou photo de la semaine',
+];

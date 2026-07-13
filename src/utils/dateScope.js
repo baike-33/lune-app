@@ -15,6 +15,17 @@ export function isWithinDays(dateISO, days) {
   return diff >= 0 && diff < days;
 }
 
+/* Clé de semaine ISO (ex: '2026-W28') — sert à réinitialiser le tracker
+   hebdomadaire quand on change de semaine. */
+export function weekKey(date = new Date()) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+}
+
 /* Jours consécutifs jusqu'à l'entrée la plus récente — 0 si la dernière
    entrée date de plus d'un jour (le streak "casse" si on saute un jour) */
 export function computeStreak(dateKeys) {

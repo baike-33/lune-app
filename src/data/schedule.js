@@ -17,10 +17,10 @@ const BASE_COUNT = { mens: 2, fol: 4, ov: 3, lut: 3 };
 /* Volume fessiers → +1 jour (fréquence pour la croissance) ·
    Énergie & équilibre → -1 jour (respecte l'énergie basse) ·
    les autres objectifs gardent le rythme de base de la phase */
-const GOAL_FREQUENCY_DELTA = { volume: 1, global: 0, taille: 0, energie: -1 };
+const GOAL_FREQUENCY_DELTA = { volume: 1, global: 0, taille: 0, energie: -1, posture: 0 };
 
 /* Repos entre les séries, modulé par objectif (secondes) */
-export const REST_SECONDS_BY_GOAL = { volume: 90, global: 75, taille: 60, energie: 75 };
+export const REST_SECONDS_BY_GOAL = { volume: 90, global: 75, taille: 60, energie: 75, posture: 60 };
 
 const REST_MESSAGES = {
   mens: "Repos sacré — mobilité douce si tu en as envie, rien d'obligatoire.",

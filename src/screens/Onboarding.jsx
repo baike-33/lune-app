@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { LV3 } from '../theme/tokens';
 import { MUSES, PHASE_TO_MUSE } from '../data/muses';
 import { PHASES } from '../data/phases';
-import { LuneStore, cycleDayFromDate, phaseForDay, PHASE_DEFAULT_DAY } from '../store/luneStore';
+import { LuneStore, cycleDayFromDate, phaseForDay, PHASE_DEFAULT_DAY, GOALS } from '../store/luneStore';
 import { WarmAurora, Glass } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { MuseAvatar } from '../components/MuseAvatar';
 import { ExoPose } from '../components/ExoPose';
 import { INJURY_TAGS } from '../data/poses';
+import { ACTIVITY_LEVELS } from '../utils/nutrition';
+import { MORPHO_TYPES } from '../data/morpho';
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 9;
 
 function ctaStyle(accent) {
   return {
@@ -26,6 +28,7 @@ function ctaDisabledStyle(accent) {
 export function Onboarding({ onDone }) {
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [cycleMode, setCycleMode] = useState(null); // 'cycle' | 'none'
   const [phase, setPhase] = useState(null);
   const [periodDate, setPeriodDate] = useState('');
@@ -37,6 +40,9 @@ export function Onboarding({ onDone }) {
   const [equipment, setEquipment] = useState('home');
   const [injuriesSel, setInjuriesSel] = useState([]);
   const toggleInjury = (k) => setInjuriesSel(cur => cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k]);
+  const [goalSel, setGoalSel] = useState(null);
+  const [activitySel, setActivitySel] = useState('modere');
+  const [morphoSel, setMorphoSel] = useState(null);
 
   const activeMuseKey = cycleMode === 'none' ? fixedMuse : (phase ? PHASE_TO_MUSE[phase] : null);
   const muse = activeMuseKey ? MUSES[activeMuseKey] : MUSES.lina;
@@ -69,6 +75,10 @@ export function Onboarding({ onDone }) {
       consentGiven: true,
       consentDate: new Date().toISOString(),
       name: name.trim() || 'toi',
+      lastName: lastName.trim(),
+      ...(goalSel ? { goal: goalSel } : {}),
+      activityLevel: activitySel,
+      morphoType: morphoSel,
       cycleMode: cycleMode || 'cycle',
       fixedMuse: cycleMode === 'none' ? (fixedMuse || 'lina') : null,
       ...(cycleMode !== 'none' && periodDate ? { lastPeriod: periodDate } : {}),
@@ -322,8 +332,87 @@ export function Onboarding({ onDone }) {
           </div>
         )}
 
-        {/* STEP 5 — Prénom + mensurations de départ + finish */}
+        {/* STEP 5 — Objectif & Activité */}
         {step === 5 && (
+          <div className="lv3-rise" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div className="lv3-mono" style={{ fontSize: 10, letterSpacing: '.22em', color: accent }}>TON OBJECTIF</div>
+            <h2 className="lv3-serif" style={{ fontSize: 28, fontStyle: 'italic', margin: '10px 0 6px', lineHeight: 1.05 }}>
+              Ton <em style={{ color: accent }}>objectif</em> & ton activité
+            </h2>
+            <p style={{ fontSize: 13, color: LV3.ink3, marginBottom: 16 }}>Ça affine les calories et la progression du programme.</p>
+            <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+              <div className="lv3-mono" style={{ fontSize: 9.5, letterSpacing: '.12em', color: LV3.ink3, marginBottom: 8 }}>OBJECTIF PRINCIPAL</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 18 }}>
+                {Object.entries(GOALS).map(([k, g]) => {
+                  const isA = goalSel === k;
+                  return (
+                    <button key={k} onClick={() => setGoalSel(k)} aria-pressed={isA} style={{
+                      padding: '10px 15px', borderRadius: 99, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                      background: isA ? `${accent}26` : 'rgba(255,255,255,0.04)',
+                      color: isA ? accent : LV3.ink2, fontSize: 12.5, fontWeight: isA ? 600 : 400,
+                      outline: `1px solid ${isA ? accent : LV3.glassLine}`,
+                    }}>{g.label}</button>
+                  );
+                })}
+              </div>
+              <div className="lv3-mono" style={{ fontSize: 9.5, letterSpacing: '.12em', color: LV3.ink3, marginBottom: 8 }}>NIVEAU D'ACTIVITÉ HORS SPORT</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {ACTIVITY_LEVELS.map(a => {
+                  const isA = activitySel === a.k;
+                  return (
+                    <button key={a.k} onClick={() => setActivitySel(a.k)} aria-pressed={isA} style={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 14px', borderRadius: 14, cursor: 'pointer', textAlign: 'left', border: 'none',
+                      background: isA ? `${accent}1A` : 'rgba(255,255,255,0.04)', outline: `1px solid ${isA ? accent : LV3.glassLine}`, fontFamily: 'Manrope, sans-serif',
+                    }}>
+                      <span style={{ fontSize: 12.5, color: isA ? accent : LV3.ink }}>{a.l}</span>
+                      <span className="lv3-mono" style={{ fontSize: 9, color: LV3.ink3 }}>{a.sub}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+              <button onClick={back} style={{ padding: '16px 20px', borderRadius: 99, border: `1px solid ${LV3.glassLine}`, background: 'transparent', color: LV3.ink2, fontFamily: 'Manrope, sans-serif', fontSize: 13, cursor: 'pointer' }}>←</button>
+              <button onClick={next} className="lv3-fab" style={{ ...ctaStyle(accent), flex: 1 }}>
+                Continuer →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 6 — Morphologie */}
+        {step === 6 && (
+          <div className="lv3-rise" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div className="lv3-mono" style={{ fontSize: 10, letterSpacing: '.22em', color: accent }}>TA SILHOUETTE</div>
+            <h2 className="lv3-serif" style={{ fontSize: 30, fontStyle: 'italic', margin: '10px 0 6px', lineHeight: 1.05 }}>
+              Ta <em style={{ color: accent }}>morphologie</em>
+            </h2>
+            <p style={{ fontSize: 13, color: LV3.ink3, marginBottom: 18 }}>Choisis celle qui correspond le mieux à ta silhouette naturelle — optionnel.</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {MORPHO_TYPES.map(t => {
+                const isA = morphoSel === t.k;
+                return (
+                  <button key={t.k} onClick={() => setMorphoSel(t.k)} aria-pressed={isA} style={{
+                    padding: '11px 16px', borderRadius: 16, border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif',
+                    background: isA ? `${accent}26` : 'rgba(255,255,255,0.04)',
+                    color: isA ? accent : LV3.ink2, fontSize: 13, fontWeight: isA ? 600 : 400,
+                    outline: `1px solid ${isA ? accent : LV3.glassLine}`,
+                  }}>{t.icon} {t.l}</button>
+                );
+              })}
+            </div>
+            <div style={{ flex: 1 }} />
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={back} style={{ padding: '16px 20px', borderRadius: 99, border: `1px solid ${LV3.glassLine}`, background: 'transparent', color: LV3.ink2, fontFamily: 'Manrope, sans-serif', fontSize: 13, cursor: 'pointer' }}>←</button>
+              <button onClick={next} className="lv3-fab" style={{ ...ctaStyle(accent), flex: 1 }}>
+                Continuer →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 7 — Prénom + mensurations de départ + finish */}
+        {step === 7 && (
           <div className="lv3-rise" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '4px 0 14px' }}>
               <ExoPose pose={{ image: muse.img ? muse.img.replace('portrait', 'head') : muse.head, muse: activeMuseKey || 'lina', cadence: 'breathe', objectPosition: 'center 16%', name: '' }} aspectRatio="1" round={999} showArrow={false} showCredit={false} style={{ width: 90, height: 90 }} />
@@ -335,17 +424,30 @@ export function Onboarding({ onDone }) {
               On t'appelle <em style={{ color: accent }}>comment</em> ?
             </h2>
             <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
-              <input
-                value={name}
-                onChange={e => setName(e.target.value)}
-                placeholder="Ton prénom"
-                style={{
-                  width: '100%', padding: '15px 18px', borderRadius: 16, marginBottom: 14, boxSizing: 'border-box',
-                  background: 'rgba(255,255,255,0.05)', border: `1px solid ${LV3.glassLine2}`,
-                  color: LV3.ink, fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 20,
-                  textAlign: 'center', outline: 'none',
-                }}
-              />
+              <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+                <input
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  placeholder="Prénom"
+                  style={{
+                    flex: 1, minWidth: 0, padding: '15px 18px', borderRadius: 16, boxSizing: 'border-box',
+                    background: 'rgba(255,255,255,0.05)', border: `1px solid ${LV3.glassLine2}`,
+                    color: LV3.ink, fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 20,
+                    textAlign: 'center', outline: 'none',
+                  }}
+                />
+                <input
+                  value={lastName}
+                  onChange={e => setLastName(e.target.value)}
+                  placeholder="Nom"
+                  style={{
+                    flex: 1, minWidth: 0, padding: '15px 18px', borderRadius: 16, boxSizing: 'border-box',
+                    background: 'rgba(255,255,255,0.05)', border: `1px solid ${LV3.glassLine2}`,
+                    color: LV3.ink, fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 20,
+                    textAlign: 'center', outline: 'none',
+                  }}
+                />
+              </div>
               <div className="lv3-mono" style={{ fontSize: 9, letterSpacing: '.14em', color: LV3.ink3, marginBottom: 8, textAlign: 'center' }}>
                 POUR UN PROGRAMME SUR MESURE · OPTIONNEL
               </div>
@@ -372,8 +474,8 @@ export function Onboarding({ onDone }) {
           </div>
         )}
 
-        {/* STEP 6 — Équipement + limitations physiques */}
-        {step === 6 && (
+        {/* STEP 8 — Équipement + limitations physiques */}
+        {step === 8 && (
           <div className="lv3-rise" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
             <div className="lv3-mono" style={{ fontSize: 10, letterSpacing: '.22em', color: accent }}>TON ENTRAÎNEMENT</div>
             <h2 className="lv3-serif" style={{ fontSize: 28, fontStyle: 'italic', margin: '10px 0 6px', lineHeight: 1.05 }}>
