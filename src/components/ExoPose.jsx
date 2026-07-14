@@ -22,6 +22,28 @@ export function ExoPose({
   const pose = overridePose || EXO_POSES[exoId];
   if (!pose) return null;
   const m = MUSES[pose.muse];
+
+  if (pose.noPhoto) {
+    return (
+      <div style={{
+        position: 'relative', width, height, aspectRatio,
+        borderRadius: round, overflow: 'hidden',
+        background: `linear-gradient(160deg, ${m.palette.base}, ${m.palette.accent}22)`,
+        border: `1px solid ${LV3.glassLine}`,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14,
+        ...style,
+      }}>
+        <div style={{ width: 72, height: 72, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${m.palette.accent}` }}>
+          <img src={asset(m.head)} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%' }} />
+        </div>
+        <div style={{ textAlign: 'center', padding: '0 24px' }}>
+          <div className="lv3-mono" style={{ fontSize: 8.5, letterSpacing: '.14em', color: m.palette.accent }}>PAS DE PHOTO DÉMO</div>
+          <div className="lv3-serif" style={{ fontSize: 15, fontStyle: 'italic', color: LV3.ink, marginTop: 6 }}>{pose.zone || pose.name}</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{
       position: 'relative', width, height, aspectRatio,
@@ -98,6 +120,21 @@ export function ExoThumb({ exoId, size = 44, round = 12 }) {
   const pose = EXO_POSES[exoId];
   if (!pose) return null;
   const m = MUSES[pose.muse];
+
+  if (pose.noPhoto) {
+    return (
+      <div style={{
+        width: size, height: size, borderRadius: round, overflow: 'hidden',
+        flexShrink: 0, position: 'relative',
+        border: `1px solid ${LV3.glassLine}`,
+        background: `linear-gradient(160deg, ${m.palette.base}, ${m.palette.accent}22)`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <img src={asset(m.head)} alt="" style={{ width: '68%', height: '68%', borderRadius: '50%', objectFit: 'cover', objectPosition: 'center 18%', border: `1px solid ${m.palette.accent}55` }} />
+      </div>
+    );
+  }
+
   return (
     <div style={{
       width: size, height: size, borderRadius: round, overflow: 'hidden',

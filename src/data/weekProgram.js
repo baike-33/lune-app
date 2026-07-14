@@ -53,29 +53,25 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "5–10 min", charge: "—", rpe: 7, tempo: "—",
   },
   wmmar1: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Bent-over Row élastique (ou KB 8 kg léger)",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Dos", name: "Bent-over Row élastique (ou KB 8 kg léger)",
     coach: "Omoplate pincée — dos sculpté",
     cues: [{ l: "FORME", s: "Omoplate pincée — dos sculpté" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 4, reps: "12", charge: "KB 8 kg", rpe: 7, tempo: "2-1-3", avoid: ['dos']
   },
   wmmar2: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Reverse Fly élastique",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Dos · Épaules", name: "Reverse Fly élastique",
     coach: "Rhomboïdes + posture",
     cues: [{ l: "FORME", s: "Rhomboïdes + posture" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "15", charge: "Élastique", rpe: 7, tempo: "2-2-1", avoid: ['dos']
   },
   wmmar3: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Face Pull élastique",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Épaules arrière", name: "Face Pull élastique",
     coach: "Épaules arrière — anti-voûte",
     cues: [{ l: "FORME", s: "Épaules arrière — anti-voûte" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "15", charge: "Élastique", rpe: 7, tempo: "2-1-2", avoid: ['dos']
   },
   wmmar4: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Élévation latérale (haltères 2–3 kg)",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Épaules", name: "Élévation latérale (haltères 2–3 kg)",
     coach: "Épaules larges = taille visuellement plus fine",
     cues: [{ l: "FORME", s: "Épaules larges = taille visuellement plus fine" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "15", charge: "haltères 2–3 kg", rpe: 7, tempo: "2-1-2", avoid: ['dos']
@@ -88,8 +84,7 @@ export const WEEK_EXO_POSES = {
     sets: 3, reps: "10 × 3″", charge: "—", rpe: 7, tempo: "—",
   },
   wmmar6: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Pompes inclinées (mains surélevées)",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Poitrine", name: "Pompes inclinées (mains surélevées)",
     coach: "Poitrine haute + core engagé",
     cues: [{ l: "FORME", s: "Poitrine haute + core engagé" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "8–12", charge: "—", rpe: 7, tempo: "3-1-1", avoid: ['dos']
@@ -207,8 +202,7 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "40 sec", charge: "KB 8 kg", rpe: 7, tempo: "—", avoid: ['genoux']
   },
   wmsam2: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Bent-over Row élastique",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Dos", name: "Bent-over Row élastique",
     coach: "Dos + posture",
     cues: [{ l: "FORME", s: "Dos + posture" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 1, reps: "40 sec", charge: "Élastique", rpe: 7, tempo: "—", avoid: ['dos']
@@ -221,8 +215,7 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "40 sec", charge: "—", rpe: 7, tempo: "—",
   },
   wmsam4: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Pompes + rotation T",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Poitrine · Core", name: "Pompes + rotation T",
     coach: "Poitrine + core + posture",
     cues: [{ l: "FORME", s: "Poitrine + core + posture" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 1, reps: "40 sec", charge: "—", rpe: 7, tempo: "—", avoid: ['dos']
@@ -291,43 +284,37 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "10–15 min", charge: "Tapis roulant 5–8% incliné", rpe: 7, tempo: "—",
   },
   wsmar1: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Tirage horizontal prise neutre Câble",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Dos", name: "Tirage horizontal prise neutre Câble",
     coach: "Charnière à la hanche, dos neutre du début à la fin.",
     cues: [{ l: "FORME", s: "Charnière à la hanche, dos neutre du début à la fin." }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 4, reps: "12", charge: "Câble bas, barre V", rpe: 7, tempo: "2-1-3", avoid: ['dos']
   },
   wsmar2: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Tirage vertical dos large Poulie",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Dos", name: "Tirage vertical dos large Poulie",
     coach: "Charnière à la hanche, dos neutre du début à la fin.",
     cues: [{ l: "FORME", s: "Charnière à la hanche, dos neutre du début à la fin." }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "10", charge: "Poulie haute, prise large", rpe: 7, tempo: "2-1-2", avoid: ['dos']
   },
   wsmar3: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Reverse Fly / Pec Deck inversé Machine",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Dos · Épaules", name: "Reverse Fly / Pec Deck inversé Machine",
     coach: "Charnière à la hanche, dos neutre du début à la fin.",
     cues: [{ l: "FORME", s: "Charnière à la hanche, dos neutre du début à la fin." }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "15", charge: "Machine pec deck à l'envers", rpe: 7, tempo: "2-2-1", avoid: ['dos']
   },
   wsmar4: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Face Pull Câble",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Épaules arrière", name: "Face Pull Câble",
     coach: "Charnière à la hanche, dos neutre du début à la fin.",
     cues: [{ l: "FORME", s: "Charnière à la hanche, dos neutre du début à la fin." }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "15", charge: "Corde, câble à hauteur visage", rpe: 7, tempo: "2-1-2", avoid: ['dos']
   },
   wsmar5: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Élévation latérale Haltères",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Épaules", name: "Élévation latérale Haltères",
     coach: "Charnière à la hanche, dos neutre du début à la fin.",
     cues: [{ l: "FORME", s: "Charnière à la hanche, dos neutre du début à la fin." }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "15", charge: "Haltères 4–6 kg", rpe: 7, tempo: "2-1-2", avoid: ['dos']
   },
   wsmar6: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Développé incliné léger Haltères",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Poitrine", name: "Développé incliné léger Haltères",
     coach: "Charnière à la hanche, dos neutre du début à la fin.",
     cues: [{ l: "FORME", s: "Charnière à la hanche, dos neutre du début à la fin." }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 3, reps: "12", charge: "Haltères 6–10 kg, angle 30°", rpe: 7, tempo: "3-1-1", avoid: ['dos']
@@ -438,8 +425,7 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "40 sec", charge: "Charge -30% habituels", rpe: 7, tempo: "—",
   },
   wssam2: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Tirage horizontal câble",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Dos", name: "Tirage horizontal câble",
     coach: "Dos + posture",
     cues: [{ l: "FORME", s: "Dos + posture" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 1, reps: "40 sec", charge: "Charge modérée", rpe: 7, tempo: "—", avoid: ['dos']
@@ -452,8 +438,7 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "40 sec", charge: "Charge légère rapide", rpe: 7, tempo: "—",
   },
   wssam4: {
-    muse: "alya", image: "/muses/alya-rdl.png", name: "Élévation latérale haltères",
-    objectPosition: "center 35%", cadence: "hinge", arc: "hinge",
+    muse: "alya", noPhoto: true, zone: "Épaules", name: "Élévation latérale haltères",
     coach: "Épaules rondes",
     cues: [{ l: "FORME", s: "Épaules rondes" }, { l: "DOS", s: "Dos neutre, la charnière part de la hanche." }],
     sets: 1, reps: "40 sec", charge: "Haltères 4 kg", rpe: 7, tempo: "—", avoid: ['dos']
