@@ -3,6 +3,7 @@ import { LV3 } from '../theme/tokens';
 import { MUSES } from '../data/muses';
 import { GOALS, LuneStore } from '../store/luneStore';
 import { PRIVACY_SECTIONS, TERMS_SECTIONS } from '../data/legal';
+import { asset } from '../utils/format';
 
 const NAV_LINKS = [
   { href: '#comment', l: 'Comment ça marche' },
@@ -93,7 +94,7 @@ export function Landing() {
                   width: '23%', minWidth: 70, aspectRatio: '3/4.6', borderRadius: 20, overflow: 'hidden', position: 'relative',
                   border: `1px solid ${LV3.glassLine}`, marginTop: i % 2 ? 28 : 0, boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
                 }}>
-                  <img src={M.img} alt={M.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 16%' }} />
+                  <img src={asset(M.img)} alt={M.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 16%' }} />
                   <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, transparent 55%, ${M.palette.base}E6 100%)` }} />
                   <div style={{ position: 'absolute', bottom: 10, left: 0, right: 0, textAlign: 'center' }}>
                     <div style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 15, color: '#fff' }}>{M.name.slice(0, 1) + M.name.slice(1).toLowerCase()}</div>
@@ -120,7 +121,7 @@ export function Landing() {
                 <div key={k} style={{ padding: 20, borderRadius: 20, border: `1px solid ${LV3.glassLine}`, background: 'rgba(255,255,255,0.02)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                     <div style={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', border: `1px solid ${M.palette.accent}` }}>
-                      <img src={M.head} alt={M.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%' }} />
+                      <img src={asset(M.head)} alt={M.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%' }} />
                     </div>
                     <div>
                       <div style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 18, color: M.palette.accent }}>{M.name.slice(0, 1) + M.name.slice(1).toLowerCase()}</div>

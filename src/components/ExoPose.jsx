@@ -2,6 +2,7 @@ import { LV3 } from '../theme/tokens';
 import { MUSES } from '../data/muses';
 import { EXO_POSES } from '../data/poses';
 import { Glass } from './Glass';
+import { asset } from '../utils/format';
 
 /* ─── Composant principal : ExoPose ────────────────────── */
 export function ExoPose({
@@ -31,7 +32,7 @@ export function ExoPose({
       ...style,
     }}>
       <img
-        src={pose.image}
+        src={asset(pose.image)}
         alt={pose.name || ''}
         className={animate ? `lv3-rep-${pose.cadence}` : ''}
         style={{
@@ -82,7 +83,7 @@ export function ExoPose({
         <div style={{ position: 'absolute', bottom: 12, left: 12, zIndex: 6 }}>
           <Glass tight pill style={{ padding: '5px 11px 5px 5px', display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 22, height: 22, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `1px solid ${m.palette.accent}` }}>
-              <img src={MUSES[pose.muse].head} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%' }} />
+              <img src={asset(MUSES[pose.muse].head)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%' }} />
             </div>
             <span className="lv3-mono" style={{ fontSize: 9, letterSpacing: '.12em', color: m.palette.accent, fontWeight: 600 }}>{m.name}</span>
           </Glass>
@@ -104,7 +105,7 @@ export function ExoThumb({ exoId, size = 44, round = 12 }) {
       border: `1px solid ${LV3.glassLine}`,
       background: m.palette.base,
     }}>
-      <img src={pose.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: pose.objectPosition }} />
+      <img src={asset(pose.image)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: pose.objectPosition }} />
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, transparent 50%, ${m.palette.base}77 100%)`, pointerEvents: 'none' }} />
     </div>
   );

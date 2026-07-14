@@ -3,6 +3,7 @@ import { LV3, lv3Label, lv3Phone } from '../theme/tokens';
 import { MUSES, PHASE_TO_MUSE } from '../data/muses';
 import { useLune, LuneStore, activePhase as getActivePhase, PHASE_DEFAULT_DAY, luneNav, luneBack } from '../store/luneStore';
 import { WarmAurora, Glass } from '../components/Glass';
+import { asset } from '../utils/format';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { LV3TabBar } from '../components/LV3TabBar';
 
@@ -73,7 +74,7 @@ export function Constellation() {
                 border: isA ? `2px solid ${M.palette.accent}` : `1px solid ${LV3.glassLine}`,
                 boxShadow: isA ? `0 0 28px ${M.palette.glow}, 0 12px 28px rgba(0,0,0,0.3)` : '0 4px 14px rgba(0,0,0,0.25)',
               }}>
-                <img src={M.head} alt={M.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%', filter: isA ? 'none' : 'grayscale(40%) brightness(.85)' }} />
+                <img src={asset(M.head)} alt={M.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%', filter: isA ? 'none' : 'grayscale(40%) brightness(.85)' }} />
                 {isA && <div className="lv3-ring-pulse" style={{ position: 'absolute', inset: -3, borderRadius: '50%', boxShadow: `inset 0 0 0 1px ${M.palette.accent}`, pointerEvents: 'none' }} />}
               </div>
             );

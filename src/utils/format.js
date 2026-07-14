@@ -1,5 +1,13 @@
 import { LV3 } from '../theme/tokens';
 
+/* Préfixe les chemins publics absolus (ex. '/muses/x.png') avec le base
+   path Vite, pour que les images restent valides une fois déployées sous
+   un sous-chemin (ex. GitHub Pages : /lune-app/). */
+export function asset(path) {
+  if (!path || !path.startsWith('/')) return path;
+  return import.meta.env.BASE_URL.replace(/\/$/, '') + path;
+}
+
 const MONTHS_FR = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
 const MONTHS_FR_FULL = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 const WEEKDAYS_FR = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
