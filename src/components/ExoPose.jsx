@@ -53,15 +53,27 @@ export function ExoPose({
       border: `1px solid ${LV3.glassLine}`,
       ...style,
     }}>
-      <img
-        src={asset(pose.image)}
-        alt={pose.name || ''}
-        className={animate ? `lv3-rep-${pose.cadence}` : ''}
-        style={{
-          position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: 'cover', objectPosition: pose.objectPosition,
-        }}
-      />
+      {pose.video ? (
+        <video
+          src={asset(pose.video)}
+          poster={asset(pose.image)}
+          autoPlay loop muted playsInline
+          style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover', objectPosition: pose.objectPosition,
+          }}
+        />
+      ) : (
+        <img
+          src={asset(pose.image)}
+          alt={pose.name || ''}
+          className={animate ? `lv3-rep-${pose.cadence}` : ''}
+          style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover', objectPosition: pose.objectPosition,
+          }}
+        />
+      )}
       {vignette && (
         <div style={{
           position: 'absolute', inset: 0,
@@ -73,7 +85,7 @@ export function ExoPose({
       <div className="lv3-grain"></div>
 
       {/* Motion arc overlay */}
-      {showArrow && pose.arc && (
+      {showArrow && pose.arc && !pose.video && (
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 4 }}>
           <defs>
             <marker id={`epm-${exoId || 'p'}`} viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">

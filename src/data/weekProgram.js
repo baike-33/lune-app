@@ -235,7 +235,7 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "40 sec", charge: "—", rpe: 7, tempo: "—",
   },
   wslun1: {
-    muse: "alya", image: "/muses/alya-hipthrust.png", name: "Hip Thrust guidé Smith",
+    muse: "alya", image: "/muses/alya-hipthrust.png", video: "/muses/alya-hipthrust-gym.mp4", name: "Hip Thrust guidé Smith",
     objectPosition: "center 35%", cadence: "hipthrust", arc: "up",
     coach: "Pousse fort par les talons, verrouille en haut.",
     cues: [{ l: "FORME", s: "Pousse fort par les talons, verrouille en haut." }, { l: "SQUEEZE", s: "Verrouille les fessiers 1 seconde en haut." }],
