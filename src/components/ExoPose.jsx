@@ -61,6 +61,7 @@ export function ExoPose({
           style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%',
             objectFit: 'cover', objectPosition: pose.objectPosition,
+            transform: 'scale(1.18)', transformOrigin: 'center center',
           }}
         />
       ) : (
