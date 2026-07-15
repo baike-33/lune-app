@@ -4,7 +4,7 @@
 
 export const WEEK_EXO_POSES = {
   wmlun1: {
-    muse: "alya", image: "/muses/alya-hipthrust.png", name: "Hip Thrust KB 8 kg (canapé)",
+    muse: "alya", image: "/muses/alya-hipthrust.png", video: "/muses/alya-hipthrust-home.mp4", name: "Hip Thrust KB 8 kg (canapé)",
     objectPosition: "center 35%", cadence: "hipthrust", arc: "up",
     coach: "Pousser par les talons, tenir 1 sec en haut. Élastique autour des genoux en progression",
     cues: [{ l: "FORME", s: "Pousser par les talons, tenir 1 sec en haut. Élastique autour des genoux en progression" }, { l: "SQUEEZE", s: "Verrouille les fessiers 1 seconde en haut." }],
