@@ -6,8 +6,8 @@ export function WarmAurora({ muse = 'lina', intensity = 1 }) {
   const m = MUSES[muse];
   return (
     <div className="lv3-soft-bg" style={{ opacity: intensity }}>
-      {/* Deep warm radial */}
-      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(120% 80% at 20% 0%, ${m.palette.glow} 0%, transparent 50%), radial-gradient(120% 80% at 80% 100%, ${LV3.rose}20 0%, transparent 60%), ${LV3.bg}` }} />
+      {/* Deep warm radial — fond dimensionnel */}
+      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(120% 78% at 18% -4%, ${m.palette.glow} 0%, transparent 52%), radial-gradient(115% 75% at 84% 104%, ${LV3.rose}22 0%, transparent 60%), linear-gradient(178deg, ${LV3.bgTop} 0%, ${LV3.bg} 48%, ${LV3.bgDeep} 100%)` }} />
       {/* Drifting blobs */}
       <div className="lv3-blob" style={{ width: 280, height: 280, left: '-15%', top: '-10%', background: `radial-gradient(circle, ${m.palette.accent}50, transparent 65%)`, animationDelay: '0s' }} />
       <div className="lv3-blob" style={{ width: 240, height: 240, right: '-10%', top: '40%', background: `radial-gradient(circle, ${LV3.rose}40, transparent 65%)`, animationDelay: '-6s' }} />
