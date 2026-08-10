@@ -69,7 +69,7 @@ export function Landing() {
 
         {/* Hero */}
         <header style={{ ...wrap, padding: 'clamp(40px, 8vw, 90px) 24px clamp(50px, 8vw, 100px)', display: 'flex', gap: 'clamp(24px, 5vw, 60px)', alignItems: 'center', flexWrap: 'wrap' }}>
-          <div style={{ flex: '1 1 420px', minWidth: 280 }}>
+          <div className="lv3-rise" style={{ flex: '1 1 420px', minWidth: 280 }}>
             <div style={sectionLabel}>SLIM THICK · ÉLÉGANT</div>
             <h1 style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 'clamp(38px, 6vw, 64px)', lineHeight: 1.02, margin: '16px 0 0', fontWeight: 400 }}>
               Ton corps change<br />chaque semaine.<br /><em style={{ color: LV3.peach }}>Ton programme aussi.</em>
@@ -84,9 +84,14 @@ export function Landing() {
               }}>Commencer gratuitement →</button>
               <a href="#comment" style={{ padding: '16px 22px', borderRadius: 99, border: `1px solid ${LV3.glassLine2}`, color: LV3.ink2, fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>Voir comment ça marche</a>
             </div>
+            <div style={{ display: 'flex', gap: 'clamp(14px,3vw,26px)', marginTop: 26, flexWrap: 'wrap', color: LV3.ink3, fontFamily: "'IBM Plex Mono', monospace", fontSize: 11.5, letterSpacing: '.02em' }}>
+              <span>✦ 100&nbsp;% gratuit</span>
+              <span>✦ Sans compte</span>
+              <span>✦ Données privées</span>
+            </div>
           </div>
 
-          <div style={{ flex: '1 1 300px', minWidth: 260, display: 'flex', gap: 14, justifyContent: 'center' }}>
+          <div className="lune-stagger" style={{ flex: '1 1 300px', minWidth: 260, display: 'flex', gap: 14, justifyContent: 'center' }}>
             {['mira', 'alya', 'sora', 'lina'].map((k, i) => {
               const M = MUSES[k];
               return (
@@ -114,7 +119,7 @@ export function Landing() {
           <p style={{ color: LV3.ink3, fontSize: 14.5, maxWidth: 560, lineHeight: 1.6, marginBottom: 36 }}>
             Le programme suit ton cycle réel — séances, macros et recommandations changent avec ta phase. Cycle irrégulier, absent, contraception ou ménopause ? Choisis simplement l'énergie qui te correspond : elle reste stable, sans jamais te forcer à suivre un cycle que tu n'as pas.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+          <div className="lune-stagger" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
             {['mira', 'alya', 'sora', 'lina'].map(k => {
               const M = MUSES[k];
               return (
@@ -135,6 +140,33 @@ export function Landing() {
           </div>
         </section>
 
+        {/* Fonctionnalités */}
+        <section style={{ ...wrap, padding: 'clamp(40px, 6vw, 70px) 24px' }}>
+          <div style={sectionLabel}>TOUT EN UN</div>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 'clamp(28px, 4vw, 40px)', margin: '10px 0 8px', fontWeight: 400 }}>
+            Ta coach de poche, <em style={{ color: LV3.peach }}>vraiment complète</em>
+          </h2>
+          <p style={{ color: LV3.ink3, fontSize: 14.5, maxWidth: 560, lineHeight: 1.6, marginBottom: 36 }}>
+            Pas une app de plus. Un accompagnement entier : t'entraîner, manger juste, suivre tes progrès — pensé pour ton corps de femme, phase par phase.
+          </p>
+          <div className="lune-stagger" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+            {[
+              { i: '∿', t: 'Programme jour par jour', d: "Un split hebdo structuré (fessiers, posture, core), à la maison ou en salle. Chaque exercice démontré en photo ou en vidéo." },
+              { i: '◇', t: 'Nutrition sur mesure', d: 'Tes macros calculées depuis ton profil réel — pas une table générique. Recettes et liste de courses générées pour ta phase.' },
+              { i: '○', t: 'Synchronisé à ton cycle', d: "Séances allégées en phase menstruelle, volume réduit en lutéale, plein gaz en phase d'or. Ou une énergie fixe si tu n'as pas de cycle." },
+              { i: '◐', t: 'Progrès en images', d: 'Photos avant/après, mesures, poids : le miroir le plus honnête de ta transformation, bien plus que la balance.' },
+              { i: '✚', t: 'Adapté à toi', d: "Blessures aux genoux ou au dos ? Les exercices à risque sont retirés et remplacés automatiquement. Morphologie et objectif pris en compte." },
+              { i: '☾', t: 'Privé & hors-ligne', d: 'Tout reste sur ton appareil. Aucun compte, aucune donnée envoyée ailleurs, aucune pub. Ton corps ne regarde que toi.' },
+            ].map((f, i) => (
+              <div key={i} style={{ padding: 22, borderRadius: 20, border: `1px solid ${LV3.glassLine}`, background: 'rgba(255,255,255,0.02)' }}>
+                <div style={{ width: 42, height: 42, borderRadius: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${LV3.peach}18`, color: LV3.peach, fontSize: 20, marginBottom: 14 }} aria-hidden="true">{f.i}</div>
+                <div style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 19, color: LV3.ink }}>{f.t}</div>
+                <div style={{ fontSize: 12.5, color: LV3.ink2, marginTop: 8, lineHeight: 1.55 }}>{f.d}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Objectifs */}
         <section id="objectifs" style={{ ...wrap, padding: 'clamp(40px, 6vw, 70px) 24px' }}>
           <div style={sectionLabel}>SUR MESURE</div>
@@ -144,7 +176,7 @@ export function Landing() {
           <p style={{ color: LV3.ink3, fontSize: 14.5, maxWidth: 560, lineHeight: 1.6, marginBottom: 36 }}>
             Taille, poids, âge et activité renseignés → tes besoins caloriques sont calculés pour toi, pas piochés dans une table générique. Séances, fréquence d'entraînement et recettes suivent.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+          <div className="lune-stagger" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
             {Object.entries(GOALS).map(([k, g]) => (
               <div key={k} style={{ padding: 20, borderRadius: 20, border: `1px solid ${LV3.glassLine}`, background: 'rgba(255,255,255,0.02)' }}>
                 <div style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 19, color: LV3.ink }}>{g.label}</div>
@@ -179,6 +211,27 @@ export function Landing() {
                 }}>{tier.cta}</button>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* CTA de clôture */}
+        <section style={{ ...wrap, padding: 'clamp(30px, 5vw, 50px) 24px clamp(50px, 7vw, 80px)' }}>
+          <div style={{
+            position: 'relative', overflow: 'hidden', borderRadius: 28, padding: 'clamp(34px, 6vw, 60px) clamp(24px, 5vw, 54px)', textAlign: 'center',
+            border: `1px solid ${LV3.peach}44`,
+            background: `radial-gradient(120% 140% at 50% 0%, ${LV3.peach}1F 0%, ${LV3.rose}12 40%, transparent 75%), rgba(255,255,255,0.02)`,
+          }}>
+            <div style={sectionLabel}>PRÊTE ?</div>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 'clamp(28px, 4.5vw, 46px)', margin: '12px auto 0', fontWeight: 400, maxWidth: 620, lineHeight: 1.08 }}>
+              Ton programme t'attend.<br /><em style={{ color: LV3.peach }}>Il change avec toi.</em>
+            </h2>
+            <p style={{ color: LV3.ink2, fontSize: 'clamp(14px,1.5vw,16px)', lineHeight: 1.6, maxWidth: 460, margin: '18px auto 0' }}>
+              Deux minutes pour te configurer, et tu as ta première séance. Gratuit, sans compte, sans engagement.
+            </p>
+            <button onClick={enter} className="lv3-fab" style={{
+              marginTop: 28, padding: '17px 34px', borderRadius: 99, border: 'none', cursor: 'pointer',
+              background: `linear-gradient(135deg, ${LV3.peach}, ${LV3.peach2})`, color: '#231016', fontWeight: 600, fontSize: 15, fontFamily: 'Manrope, sans-serif',
+            }}>Commencer gratuitement →</button>
           </div>
         </section>
 

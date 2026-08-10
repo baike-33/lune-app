@@ -100,7 +100,9 @@ function AppShell() {
       {needsOnboarding ? (
         <Onboarding onDone={() => LuneStore.set({ onboarded: true })} />
       ) : (
-        <Screen />
+        <div key={screen} className="lune-screen-in" style={{ position: 'absolute', inset: 0 }}>
+          <Screen />
+        </div>
       )}
     </PhoneFrame>
   );
