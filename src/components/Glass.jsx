@@ -6,12 +6,12 @@ export function WarmAurora({ muse = 'lina', intensity = 1 }) {
   const m = MUSES[muse];
   return (
     <div className="lv3-soft-bg" style={{ opacity: intensity }}>
-      {/* Deep warm radial — fond dimensionnel */}
-      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(120% 78% at 18% -4%, ${m.palette.glow} 0%, transparent 52%), radial-gradient(115% 75% at 84% 104%, ${LV3.rose}22 0%, transparent 60%), linear-gradient(178deg, ${LV3.bgTop} 0%, ${LV3.bg} 48%, ${LV3.bgDeep} 100%)` }} />
-      {/* Drifting blobs */}
-      <div className="lv3-blob" style={{ width: 280, height: 280, left: '-15%', top: '-10%', background: `radial-gradient(circle, ${m.palette.accent}50, transparent 65%)`, animationDelay: '0s' }} />
-      <div className="lv3-blob" style={{ width: 240, height: 240, right: '-10%', top: '40%', background: `radial-gradient(circle, ${LV3.rose}40, transparent 65%)`, animationDelay: '-6s' }} />
-      <div className="lv3-blob" style={{ width: 200, height: 200, left: '30%', bottom: '-10%', background: `radial-gradient(circle, ${LV3.gold}30, transparent 65%)`, animationDelay: '-12s' }} />
+      {/* Deep warm radial — fond dimensionnel, plus dramatique */}
+      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(125% 82% at 16% -6%, ${m.palette.glow} 0%, transparent 50%), radial-gradient(118% 78% at 86% 106%, ${LV3.rose}2E 0%, transparent 58%), linear-gradient(177deg, ${LV3.bgTop} 0%, ${LV3.bg} 44%, ${LV3.bgDeep} 100%)` }} />
+      {/* Drifting blobs — halo plus présent */}
+      <div className="lv3-blob" style={{ width: 340, height: 340, left: '-18%', top: '-12%', background: `radial-gradient(circle, ${m.palette.accent}72, transparent 66%)`, animationDelay: '0s' }} />
+      <div className="lv3-blob" style={{ width: 280, height: 280, right: '-12%', top: '38%', background: `radial-gradient(circle, ${LV3.rose}58, transparent 66%)`, animationDelay: '-6s' }} />
+      <div className="lv3-blob" style={{ width: 230, height: 230, left: '28%', bottom: '-12%', background: `radial-gradient(circle, ${LV3.gold}42, transparent 66%)`, animationDelay: '-12s' }} />
     </div>
   );
 }

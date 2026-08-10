@@ -3,9 +3,10 @@
 html, body {
   margin: 0; padding: 0; color: #FBF2E2; font-family: 'Manrope', sans-serif; overscroll-behavior: none;
   background:
-    radial-gradient(130% 80% at 15% -8%, #2A1622 0%, transparent 48%),
-    radial-gradient(120% 80% at 92% 6%, rgba(232,154,171,0.10) 0%, transparent 52%),
-    linear-gradient(180deg, #130A11 0%, #0C0610 70%, #080409 100%);
+    radial-gradient(135% 85% at 12% -10%, #341B2A 0%, transparent 46%),
+    radial-gradient(125% 82% at 94% 4%, rgba(232,154,171,0.16) 0%, transparent 50%),
+    radial-gradient(90% 60% at 50% 120%, rgba(234,203,133,0.08) 0%, transparent 55%),
+    linear-gradient(180deg, #150B13 0%, #0C0610 68%, #060308 100%);
   background-attachment: fixed;
 }
 body { min-height: 100vh; }
@@ -15,15 +16,15 @@ body { min-height: 100vh; }
 /* ─── Glass surfaces — traitement joaillier ─────────────── */
 .lv3-glass {
   background:
-    linear-gradient(158deg, rgba(255,228,200,0.13) 0%, rgba(255,216,188,0.06) 52%, rgba(255,238,224,0.022) 100%);
-  backdrop-filter: blur(22px) saturate(1.35);
-  -webkit-backdrop-filter: blur(22px) saturate(1.35);
-  border: 1px solid rgba(255,226,200,0.16);
+    linear-gradient(158deg, rgba(255,230,204,0.16) 0%, rgba(255,216,188,0.065) 50%, rgba(255,238,224,0.02) 100%);
+  backdrop-filter: blur(24px) saturate(1.42);
+  -webkit-backdrop-filter: blur(24px) saturate(1.42);
+  border: 1px solid rgba(255,228,204,0.20);
   box-shadow:
-    inset 0 1px 0 rgba(255,248,238,0.16),
-    inset 0 0 34px rgba(255,204,166,0.035),
-    0 26px 64px -14px rgba(0,0,0,0.6),
-    0 4px 16px rgba(0,0,0,0.32);
+    inset 0 1px 0 rgba(255,250,242,0.22),
+    inset 0 0 40px rgba(255,204,166,0.045),
+    0 30px 72px -14px rgba(0,0,0,0.66),
+    0 5px 18px rgba(0,0,0,0.36);
   border-radius: 26px;
   position: relative;
 }
@@ -31,10 +32,10 @@ body { min-height: 100vh; }
 .lv3-glass::before {
   content: '';
   position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,244,232,0.10) 0%, transparent 18%);
-  -webkit-mask: linear-gradient(180deg, #000 0%, transparent 30%);
-  mask: linear-gradient(180deg, #000 0%, transparent 30%);
-  opacity: .7;
+  background: linear-gradient(180deg, rgba(255,246,236,0.16) 0%, transparent 20%);
+  -webkit-mask: linear-gradient(180deg, #000 0%, transparent 32%);
+  mask: linear-gradient(180deg, #000 0%, transparent 32%);
+  opacity: .8;
 }
 .lv3-glass-tight { border-radius: 18px; }
 .lv3-glass-pill  { border-radius: 999px; }
@@ -168,11 +169,31 @@ a { transition: color .18s ease, opacity .18s ease; }
   0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), 0 14px 30px -6px rgba(240,146,114,0.42), 0 0 0 0 rgba(240,146,114,0.45); }
   70% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), 0 16px 36px -6px rgba(240,146,114,0.5), 0 0 0 13px rgba(240,146,114,0); }
 }
-.lv3-fab { position: relative; animation: lv3-fab-breathe 2.8s ease-out infinite; }
+.lv3-fab { position: relative; overflow: hidden; animation: lv3-fab-breathe 2.8s ease-out infinite; }
 .lv3-fab::after {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.04) 42%, transparent 60%);
-  opacity: .7;
+  background: linear-gradient(180deg, rgba(255,255,255,0.36) 0%, rgba(255,255,255,0.05) 42%, transparent 60%);
+  opacity: .72;
+}
+/* Balayage lumineux lent qui traverse le CTA */
+@keyframes lv3-sheen-sweep {
+  0%   { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+  12%  { opacity: 1; }
+  32%  { opacity: 0; }
+  100% { transform: translateX(240%) skewX(-18deg); opacity: 0; }
+}
+.lv3-fab::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 42%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent);
+  animation: lv3-sheen-sweep 5.2s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* ─── Titre en dégradé signature ────────────────────────── */
+.lv3-grad-text {
+  background: linear-gradient(96deg, #F8CB9E 0%, #F0926C 52%, #E88FA1 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
 }
 
 /* Arrow stroke pulse */
