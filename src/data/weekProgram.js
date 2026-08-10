@@ -228,8 +228,8 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "40 sec", charge: "Élastique", rpe: 7, tempo: "—",
   },
   wmsam6: {
-    muse: "mira", image: "/muses/mira-walk.png", name: "Mountain Climbers lents",
-    objectPosition: "center 50%", cadence: "walk", arc: "arc",
+    muse: "lina", image: "/muses/lina-vacuum.png", name: "Mountain Climbers lents",
+    objectPosition: "center 35%", cadence: "breathe", arc: null,
     coach: "Core + cardio modéré",
     cues: [{ l: "FORME", s: "Core + cardio modéré" }, { l: "RESPIRE", s: "Rythme soutenable, respiration libre." }],
     sets: 1, reps: "40 sec", charge: "—", rpe: 7, tempo: "—",
@@ -327,8 +327,8 @@ export const WEEK_EXO_POSES = {
     sets: 3, reps: "30 sec", charge: "Tapis au sol", rpe: 7, tempo: "—",
   },
   wsjeu1: {
-    muse: "sora", image: "/muses/sora-kickback.png", name: "Leg Curl couché Machine",
-    objectPosition: "center 45%", cadence: "kickback", arc: "out",
+    muse: "lina", image: "/muses/lina-bridge.png", name: "Leg Curl couché Machine",
+    objectPosition: "center 40%", cadence: "bridge", arc: "up",
     coach: "Amplitude complète, zéro élan.",
     cues: [{ l: "FORME", s: "Amplitude complète, zéro élan." }, { l: "CONTRÔLE", s: "Pas d'élan — la contraction fait le travail." }],
     sets: 4, reps: "12", charge: "Machine leg curl", rpe: 7, tempo: "2-2-2",
@@ -444,8 +444,8 @@ export const WEEK_EXO_POSES = {
     sets: 1, reps: "40 sec", charge: "Haltères 4 kg", rpe: 7, tempo: "—", avoid: ['dos']
   },
   wssam5: {
-    muse: "sora", image: "/muses/sora-kickback.png", name: "Leg Curl couché léger",
-    objectPosition: "center 45%", cadence: "kickback", arc: "out",
+    muse: "lina", image: "/muses/lina-bridge.png", name: "Leg Curl couché léger",
+    objectPosition: "center 40%", cadence: "bridge", arc: "up",
     coach: "Ischios endurance",
     cues: [{ l: "FORME", s: "Ischios endurance" }, { l: "CONTRÔLE", s: "Pas d'élan — la contraction fait le travail." }],
     sets: 1, reps: "40 sec", charge: "-40% charge max", rpe: 7, tempo: "—",

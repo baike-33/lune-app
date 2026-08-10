@@ -6,6 +6,7 @@ import { CycleRingV3 } from './components/Glass';
 import { MuseAvatar } from './components/MuseAvatar';
 import { SplashIntro } from './components/SplashIntro';
 import { notify } from './utils/notifications';
+import { asset } from './utils/format';
 import { Onboarding } from './screens/Onboarding';
 import { Welcome } from './screens/Welcome';
 import { Dashboard } from './screens/Dashboard';
@@ -175,7 +176,7 @@ function DesktopAside({ children }) {
         {/* Muse card */}
         <div className="lv3-glass" style={{ padding: 0, overflow: 'hidden', borderRadius: 26 }}>
           <div style={{ position: 'relative', height: 230, background: m.palette.base }}>
-            <img src={m.img} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 14%' }} />
+            <img src={asset(m.img)} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 14%' }} />
             <div className="lv3-grain"></div>
             <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, transparent 40%, ${m.palette.base}F0 100%)` }} />
             <div style={{ position: 'absolute', bottom: 16, left: 18, right: 18 }}>

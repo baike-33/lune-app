@@ -6,7 +6,7 @@ import { WarmAurora, Glass } from '../components/Glass';
 import { PhoneStatus, HomeBar } from '../components/PhoneStatus';
 import { LV3TabBar } from '../components/LV3TabBar';
 import { PhaseDot } from '../components/PhaseDot';
-import { fmtDate, monthKey, monthLabel, navBtnStyle } from '../utils/format';
+import { fmtDate, monthKey, monthLabel, navBtnStyle, asset } from '../utils/format';
 
 export function Photos() {
   const s = useLune();
@@ -94,10 +94,10 @@ export function Photos() {
             <Glass style={{ padding: 0, overflow: 'hidden' }}>
               <div style={{ position: 'relative', width: '100%', aspectRatio: '3/4', background: '#000', overflow: 'hidden' }}>
                 {/* après (dessous) */}
-                <img src={after.dataUrl} alt="Photo la plus récente" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={asset(after.dataUrl)} alt="Photo la plus récente" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                 {/* avant (clip à gauche) */}
                 <div style={{ position: 'absolute', inset: 0, width: `${pos}%`, overflow: 'hidden', borderRight: `2px solid ${m.palette.accent}` }}>
-                  <img src={before.dataUrl} alt="Photo de départ" style={{ position: 'absolute', inset: 0, width: `${100 / (pos / 100)}%`, maxWidth: 'none', height: '100%', objectFit: 'cover' }} />
+                  <img src={asset(before.dataUrl)} alt="Photo de départ" style={{ position: 'absolute', inset: 0, width: `${100 / (pos / 100)}%`, maxWidth: 'none', height: '100%', objectFit: 'cover' }} />
                 </div>
                 {/* labels */}
                 <div style={{ position: 'absolute', top: 12, left: 12 }}>
@@ -164,7 +164,7 @@ export function Photos() {
               {groups[gk].map(p => (
                 <button key={p.id} onClick={() => setViewer(p)} aria-label={`Photo du ${fmtDate(p.date)}`} style={{ padding: 0, border: 'none', background: 'none', cursor: 'pointer', borderRadius: 18, overflow: 'hidden', position: 'relative' }}>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '3/4', borderRadius: 18, overflow: 'hidden', border: `1px solid ${LV3.glassLine}` }}>
-                    <img src={p.dataUrl} alt={`Progression ${fmtDate(p.date)}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={asset(p.dataUrl)} alt={`Progression ${fmtDate(p.date)}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.6) 100%)' }} />
                     {p.example && (
                       <div style={{ position: 'absolute', top: 8, left: 8 }}>
@@ -196,7 +196,7 @@ export function Photos() {
             <button onClick={(e) => { e.stopPropagation(); setViewer(null); }} aria-label="Fermer" style={{ width: 40, height: 40, borderRadius: '50%', border: `1px solid ${LV3.glassLine2}`, background: 'rgba(255,255,255,0.06)', color: LV3.ink, fontSize: 16, cursor: 'pointer' }}>×</button>
           </div>
           <div onClick={e => e.stopPropagation()} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 18 }}>
-            <img src={viewer.dataUrl} alt={`Progression ${fmtDate(viewer.date)}`} style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: 18, objectFit: 'contain' }} />
+            <img src={asset(viewer.dataUrl)} alt={`Progression ${fmtDate(viewer.date)}`} style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: 18, objectFit: 'contain' }} />
           </div>
           <div style={{ padding: '0 18px 30px' }}>
             <button onClick={(e) => { e.stopPropagation(); removePhoto(viewer.id); setViewer(null); }} style={{ width: '100%', padding: '13px', borderRadius: 99, border: `1px solid ${LV3.glassLine2}`, background: 'transparent', color: LV3.rose, fontFamily: 'Manrope, sans-serif', fontSize: 12.5, cursor: 'pointer', letterSpacing: '.04em' }}>
