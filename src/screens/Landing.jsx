@@ -40,6 +40,59 @@ function LegalModal({ title, sections, onClose }) {
   );
 }
 
+/* Mockup fidèle d'un écran de l'app, dans un cadre iPhone */
+function PhoneMockup({ museKey = 'alya' }) {
+  const m = MUSES[museKey];
+  const macros = [['PROT', '74', LV3.peach], ['GLUC', '100', LV3.gold], ['LIP', '28', LV3.sage]];
+  return (
+    <div style={{ position: 'relative', width: 'clamp(230px, 60vw, 288px)', flexShrink: 0 }}>
+      <div style={{ position: 'absolute', inset: -34, borderRadius: 70, background: `radial-gradient(circle at 50% 26%, ${m.palette.accent}38, transparent 68%)`, filter: 'blur(34px)', pointerEvents: 'none' }} />
+      <div style={{ position: 'relative', borderRadius: 46, background: '#09050a', padding: 8, boxShadow: '0 50px 110px rgba(0,0,0,0.62), inset 0 0 0 1.5px rgba(255,255,255,0.09), inset 0 1px 2px rgba(255,255,255,0.14)' }}>
+        <div style={{ borderRadius: 39, overflow: 'hidden', background: `linear-gradient(178deg, ${LV3.bgTop} 0%, ${LV3.bg} 46%, ${LV3.bgDeep} 100%)`, padding: '15px 14px 16px', position: 'relative' }}>
+          {/* Aurora interne */}
+          <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(120% 60% at 20% 0%, ${m.palette.glow} 0%, transparent 52%)`, pointerEvents: 'none' }} />
+          <div style={{ position: 'relative' }}>
+            {/* status bar */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: "'IBM Plex Mono', monospace", fontSize: 8.5, color: LV3.ink3, marginBottom: 14 }}>
+              <span>9:41</span><span style={{ letterSpacing: '.1em' }}>◗ ◫ 100</span>
+            </div>
+            {/* greeting */}
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 7.5, letterSpacing: '.2em', color: LV3.ink3 }}>LUNDI · JOUR 9</div>
+            <div className="lv3-serif" style={{ fontSize: 23, fontStyle: 'italic', marginTop: 2, lineHeight: 1 }}>Bonjour<span style={{ color: m.palette.accent }}>,</span> toi</div>
+            {/* séance card */}
+            <div style={{ marginTop: 12, borderRadius: 18, overflow: 'hidden', border: `1px solid ${LV3.glassLine}`, background: 'rgba(255,224,196,0.05)', boxShadow: 'inset 0 1px 0 rgba(255,250,242,0.14)' }}>
+              <div style={{ height: 132, position: 'relative' }}>
+                <img src={asset(m.img)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%' }} />
+                <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, transparent 38%, ${LV3.bg}F2 100%)` }} />
+                <div style={{ position: 'absolute', bottom: 10, left: 12, right: 12 }}>
+                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 7, letterSpacing: '.16em', color: m.palette.accent }}>SÉANCE DU JOUR</div>
+                  <div className="lv3-serif" style={{ fontSize: 17, fontStyle: 'italic', lineHeight: 1.05, marginTop: 2 }}>Lower Body A</div>
+                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 7, color: LV3.ink3, marginTop: 3 }}>7 EXOS · FOLLICULAIRE</div>
+                </div>
+              </div>
+              <div style={{ padding: 9 }}>
+                <div className="lv3-fab" style={{ padding: '10px', borderRadius: 99, textAlign: 'center', background: `linear-gradient(135deg, ${m.palette.accent}, ${LV3.peach2})`, color: '#231016', fontWeight: 600, fontSize: 11, letterSpacing: '.02em' }}>Commencer ✦</div>
+              </div>
+            </div>
+            {/* macros */}
+            <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
+              {macros.map(([l, v, c]) => (
+                <div key={l} style={{ flex: 1, padding: '9px 8px', borderRadius: 13, border: `1px solid ${LV3.glassLine}`, background: 'rgba(255,224,196,0.04)' }}>
+                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 6.5, letterSpacing: '.12em', color: LV3.ink3 }}>{l}</div>
+                  <div className="lv3-serif" style={{ fontSize: 15, fontStyle: 'italic', marginTop: 1 }}>{v}</div>
+                  <div style={{ height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.08)', marginTop: 5, overflow: 'hidden' }}>
+                    <div style={{ width: '58%', height: '100%', background: c }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Landing() {
   const [legalOpen, setLegalOpen] = useState(null); // 'privacy' | 'terms' | null
   const enter = () => LuneStore.set({ entered: true });
@@ -71,8 +124,8 @@ export function Landing() {
         <header style={{ ...wrap, padding: 'clamp(40px, 8vw, 90px) 24px clamp(50px, 8vw, 100px)', display: 'flex', gap: 'clamp(24px, 5vw, 60px)', alignItems: 'center', flexWrap: 'wrap' }}>
           <div className="lv3-rise" style={{ flex: '1 1 420px', minWidth: 280 }}>
             <div style={sectionLabel}>SLIM THICK · ÉLÉGANT</div>
-            <h1 style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 'clamp(38px, 6vw, 64px)', lineHeight: 1.02, margin: '16px 0 0', fontWeight: 400 }}>
-              Ton corps change<br />chaque semaine.<br /><em style={{ color: LV3.peach }}>Ton programme aussi.</em>
+            <h1 style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 'clamp(40px, 6.4vw, 68px)', lineHeight: 1.0, margin: '16px 0 0', fontWeight: 400, letterSpacing: '-0.015em' }}>
+              Ton corps change<br />chaque semaine.<br /><em className="lv3-grad-text">Ton programme aussi.</em>
             </h1>
             <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: LV3.ink2, lineHeight: 1.6, marginTop: 22, maxWidth: 480 }}>
               Entraînement, nutrition et suivi qui s'adaptent à ton cycle — ou à l'énergie que tu choisis si ton cycle est irrégulier, absent, ou que tu es sous contraception ou en ménopause. Un programme sur mesure, jamais générique.
@@ -109,6 +162,39 @@ export function Landing() {
             })}
           </div>
         </header>
+
+        {/* Product showcase — l'app en situation */}
+        <section style={{ ...wrap, padding: 'clamp(30px, 5vw, 60px) 24px' }}>
+          <div style={{
+            display: 'flex', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center',
+            borderRadius: 30, padding: 'clamp(30px, 5vw, 56px) clamp(24px, 4vw, 48px)',
+            border: `1px solid ${LV3.glassLine}`,
+            background: `radial-gradient(120% 130% at 12% 0%, ${LV3.peach}12 0%, transparent 55%), rgba(255,255,255,0.015)`,
+          }}>
+            <PhoneMockup museKey="alya" />
+            <div style={{ flex: '1 1 300px', minWidth: 260 }}>
+              <div style={sectionLabel}>TON TABLEAU DE BORD</div>
+              <h2 style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 'clamp(26px, 3.6vw, 38px)', margin: '10px 0 0', fontWeight: 400, lineHeight: 1.08 }}>
+                Chaque matin, <em className="lv3-grad-text">tout est déjà prêt.</em>
+              </h2>
+              <p style={{ color: LV3.ink2, fontSize: 'clamp(14px,1.5vw,16px)', lineHeight: 1.65, margin: '16px 0 0', maxWidth: 440 }}>
+                Ta séance du jour, tes macros, ton jour de cycle — d'un coup d'œil, sans réfléchir. Tu ouvres l'app, tu appuies sur « Commencer », c'est parti.
+              </p>
+              <div className="lune-stagger" style={{ marginTop: 22, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {[
+                  ['✦', 'La bonne séance, au bon moment du cycle'],
+                  ['✦', 'Tes macros calculées, pas devinées'],
+                  ['✦', 'Zéro configuration quotidienne — tout suit'],
+                ].map(([i, t]) => (
+                  <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ color: LV3.peach, fontSize: 13 }} aria-hidden="true">{i}</span>
+                    <span style={{ fontSize: 14.5, color: LV3.ink, fontStyle: 'italic', fontFamily: "'Fraunces', serif" }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Comment ça marche */}
         <section id="comment" style={{ ...wrap, padding: 'clamp(40px, 6vw, 70px) 24px' }}>
