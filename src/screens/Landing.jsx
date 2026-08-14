@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { LV3 } from '../theme/tokens';
 import { MUSES } from '../data/muses';
 import { GOALS, LuneStore } from '../store/luneStore';
@@ -10,6 +10,16 @@ const NAV_LINKS = [
   { href: '#objectifs', l: 'Objectifs' },
   { href: '#tarifs', l: 'Tarifs' },
 ];
+
+function useIsMobileNav() {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 700 : false);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 700);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return isMobile;
+}
 
 function LegalModal({ title, sections, onClose }) {
   return (
@@ -95,7 +105,14 @@ function PhoneMockup({ museKey = 'alya' }) {
 
 export function Landing() {
   const [legalOpen, setLegalOpen] = useState(null); // 'privacy' | 'terms' | null
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isMobileNav = useIsMobileNav();
   const enter = () => LuneStore.set({ entered: true });
+  const navRef = useRef(null);
+  const [navH, setNavH] = useState(66);
+  useEffect(() => {
+    if (navRef.current) setNavH(navRef.current.getBoundingClientRect().height);
+  }, [isMobileNav]);
 
   const wrap = { maxWidth: 1100, margin: '0 auto', padding: '0 24px' };
   const sectionLabel = { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, letterSpacing: '.2em', textTransform: 'uppercase', color: LV3.peach };
@@ -106,19 +123,55 @@ export function Landing() {
       <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', background: `radial-gradient(120% 60% at 20% -10%, ${MUSES.lina.palette.glow} 0%, transparent 50%), radial-gradient(100% 60% at 90% 10%, ${LV3.rose}18 0%, transparent 55%)` }} />
 
       <div style={{ position: 'relative', zIndex: 1 }}>
-        {/* Nav */}
-        <nav style={{ ...wrap, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px', flexWrap: 'wrap', gap: 14 }}>
-          <div style={{ fontFamily: "'Fraunces', serif", fontStyle: 'italic', fontSize: 26 }}>Lune<span style={{ color: LV3.peach }}>.</span></div>
-          <div style={{ display: 'flex', gap: 'clamp(14px, 3vw, 28px)', alignItems: 'center', flexWrap: 'wrap' }}>
-            {NAV_LINKS.map(n => (
-              <a key={n.href} href={n.href} style={{ color: LV3.ink2, fontSize: 13.5, textDecoration: 'none' }}>{n.l}</a>
-            ))}
-            <button onClick={enter} style={{
-              padding: '10px 20px', borderRadius: 99, border: 'none', cursor: 'pointer',
-              background: `linear-gradient(135deg, ${LV3.peach}, ${LV3.peach2})`, color: '#231016', fontWeight: 600, fontSize: 13, fontFamily: 'Manrope, sans-serif',
-            }}>Essayer Lune</button>
+        {/* Nav — fixe, se détache au scroll, vrai menu compact sur mobile */}
+        <nav ref={navRef} style={{
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 30,
+          background: `${LV3.bgDeep}D9`,
+          backdropFilter: 'blur(18px) saturate(1.3)', WebkitBackdropFilter: 'blur(18px) saturate(1.3)',
+          borderBottom: `1px solid ${LV3.glassLine}`,
+        }}>
+          <div style={{ ...wrap, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '15px 24px' }}>
+            <div className="lv3-serif" style={{ fontSize: 24, fontStyle: 'italic' }}>Lune<span style={{ color: LV3.peach }}>.</span></div>
+
+            {isMobileNav ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <button onClick={enter} style={{
+                  padding: '9px 16px', borderRadius: 99, border: 'none', cursor: 'pointer',
+                  background: `linear-gradient(135deg, ${LV3.peach}, ${LV3.peach2})`, color: '#231016', fontWeight: 600, fontSize: 12.5, fontFamily: 'Manrope, sans-serif',
+                }}>Essayer</button>
+                <button
+                  onClick={() => setMenuOpen(v => !v)} aria-label="Menu" aria-expanded={menuOpen}
+                  style={{
+                    width: 38, height: 38, borderRadius: 12, border: `1px solid ${LV3.glassLine2}`, background: 'rgba(255,255,255,0.04)',
+                    color: LV3.ink, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0,
+                  }}>
+                  <span aria-hidden="true" style={{ fontSize: 15 }}>{menuOpen ? '✕' : '☰'}</span>
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: 'clamp(14px, 3vw, 28px)', alignItems: 'center' }}>
+                {NAV_LINKS.map(n => (
+                  <a key={n.href} href={n.href} style={{ color: LV3.ink2, fontSize: 13.5, textDecoration: 'none' }}>{n.l}</a>
+                ))}
+                <button onClick={enter} className="lv3-fab" style={{
+                  padding: '10px 20px', borderRadius: 99, border: 'none', cursor: 'pointer',
+                  background: `linear-gradient(135deg, ${LV3.peach}, ${LV3.peach2})`, color: '#231016', fontWeight: 600, fontSize: 13, fontFamily: 'Manrope, sans-serif',
+                }}>Essayer Lune</button>
+              </div>
+            )}
           </div>
+
+          {isMobileNav && menuOpen && (
+            <div className="lv3-rise" style={{ borderTop: `1px solid ${LV3.glassLine}`, padding: '6px 24px 18px', display: 'flex', flexDirection: 'column' }}>
+              {NAV_LINKS.map(n => (
+                <a key={n.href} href={n.href} onClick={() => setMenuOpen(false)} style={{
+                  color: LV3.ink2, fontSize: 15, textDecoration: 'none', padding: '13px 2px', borderBottom: `1px solid ${LV3.faint}`,
+                }}>{n.l}</a>
+              ))}
+            </div>
+          )}
         </nav>
+        <div style={{ height: navH }} aria-hidden="true" />
 
         {/* Hero */}
         <header style={{ ...wrap, padding: 'clamp(40px, 8vw, 90px) 24px clamp(50px, 8vw, 100px)', display: 'flex', gap: 'clamp(24px, 5vw, 60px)', alignItems: 'center', flexWrap: 'wrap' }}>
